@@ -23,11 +23,12 @@ All content edits (adding a blog link, updating the resume) are file edits + `gi
 
 ## 3. Repository Structure
 
-Repo name: `prashantb.github.io` (GitHub user `prashantb`).
+Repo name (at deploy time, on the owner's laptop): `<username>.github.io`.
 
 ```
 .
-├── go.mod                    # module github.com/prashantb/prashantb.github.io
+├── DEPLOY.md                 # step-by-step GitHub Pages instructions for the owner
+├── go.mod                    # module portfolio
 ├── content/
 │   ├── profile.yaml          # name, title, pitch, about, quick facts, socials, photo, resume, web3forms key
 │   ├── experience.yaml       # company → roles → bullets + highlight chips
@@ -139,6 +140,10 @@ Per-page `<title>` and meta description; Open Graph + Twitter card tags with a s
 - CI: `go vet`, `go test ./...`, build, link check.
 
 ## 11. Deployment
+
+**Scope of this build:** local development only. The site must build with `go run ./cmd/build` and run at `http://localhost:8080` via `go run ./cmd/serve`. Nothing is pushed to GitHub from this machine. The owner deploys later from a personal laptop using `DEPLOY.md` (step-by-step instructions shipped in the repo). The Go module path is `portfolio` (local, no GitHub dependency); renaming it is not required for deployment.
+
+The workflow file below is written and committed but only runs once the owner pushes from their own account.
 
 GitHub Actions workflow `deploy.yml` on push to `main`:
 1. Checkout, set up Go.
