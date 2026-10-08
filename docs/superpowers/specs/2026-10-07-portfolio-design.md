@@ -2,7 +2,7 @@
 
 **Date:** 2026-10-07
 **Owner:** Prashant (Senior Software Engineer, Backend Systems)
-**Live URL:** https://prashantb.github.io
+**Live URL:** https://prashant263.github.io
 **Cost:** ₹0 (GitHub Pages + Web3Forms free tier + GitHub Actions on a public repo)
 
 ## 1. Goals
@@ -23,7 +23,7 @@ All content edits (adding a blog link, updating the resume) are file edits + `gi
 
 ## 3. Repository Structure
 
-Repo name (at deploy time, on the owner's laptop): `<username>.github.io`.
+Repo name (at deploy time, on the owner's laptop): `prashant263.github.io`.
 
 ```
 .
@@ -121,7 +121,7 @@ Sticky glass nav with anchor links to sections; collapses to a menu on mobile.
 
 ## 8. SEO & Sharing
 
-Per-page `<title>` and meta description; Open Graph + Twitter card tags with a static 1200×630 OG image (`static/img/og.png`, built from the hero design); `sitemap.xml` and `robots.txt` generated at build; canonical URLs under `https://prashantb.github.io`.
+Per-page `<title>` and meta description; Open Graph + Twitter card tags with a static 1200×630 OG image (`static/img/og.png`, built from the hero design); `sitemap.xml` and `robots.txt` generated at build; canonical URLs under `https://prashant263.github.io`.
 
 ## 9. Error Handling
 
@@ -157,7 +157,7 @@ Pull requests run steps 1–3 only. Repo Settings → Pages → Source: *GitHub 
 
 - `static/img/profile.jpg` — square profile photo, ≥ 800×800.
 - `static/resume.pdf` — defaults to the existing `Prashants_a25.pdf` in the project root (note: the public file will expose whatever contact details it contains, including phone number; consider a version without the phone number).
-- GitHub username confirmation (`prashantb`), LinkedIn URL, Web3Forms access key (free signup with email).
+- LinkedIn URL, Web3Forms access key (free signup with email).
 - Blog entries (optional at launch; section shows an empty-state message if none).
 - Side projects (optional at launch; section hidden if `projects.yaml` is empty).
 
