@@ -1,0 +1,131 @@
+{{define "main"}}
+{{with .Site.Profile}}
+<section class="hero" id="top">
+  <div class="hero-photo"><img src="{{asset .Photo}}" alt="Photo of {{.Name}}" width="220" height="220" fetchpriority="high"></div>
+  <div class="hero-text">
+    <p class="eyebrow mono">Hi, I'm</p>
+    <h1>{{.Name}}</h1>
+    <p class="role">{{.Title}}</p>
+    <p class="pitch">{{.Pitch}}</p>
+    <div class="actions">
+      <a class="btn primary" href="#work">View work {{template "icon-arrow"}}</a>
+      <a class="btn" href="{{asset .Resume}}" download>Download resume {{template "icon-download"}}</a>
+    </div>
+    {{template "socials" .Socials}}
+  </div>
+</section>
+
+<section id="about" class="section reveal">
+  <h2 class="section-title">About</h2>
+  <div class="about glass card">
+    <div class="about-text">{{range .About}}<p>{{.}}</p>{{end}}</div>
+    {{with .Facts}}<ul class="facts">{{range .}}<li><strong>{{.Value}}</strong><span>{{.Label}}</span></li>{{end}}</ul>{{end}}
+  </div>
+</section>
+{{end}}
+
+<section id="experience" class="section reveal">
+  <h2 class="section-title">Experience</h2>
+  {{range .Site.Experience}}
+  <div class="company">
+    <h3 class="company-name">{{.Name}}{{with .Location}} <span class="muted">· {{.}}</span>{{end}}</h3>
+    <ol class="timeline">
+      {{range .Roles}}
+      <li class="glass card role-card">
+        <div class="role-head"><h4>{{.Title}}</h4><span class="mono muted">{{.Start}} — {{or .End "Present"}}</span></div>
+        {{with .Highlights}}<ul class="chips">{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
+        {{with .Bullets}}<ul class="bullets">{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
+      </li>
+      {{end}}
+    </ol>
+  </div>
+  {{end}}
+</section>
+
+<section id="work" class="section reveal">
+  <h2 class="section-title">Case studies</h2>
+  <div class="grid">
+    {{range .Site.CaseStudies}}
+    <a class="card glass case-card" href="/case-studies/{{.Slug}}/">
+      <h3>{{.Title}}</h3>
+      <p>{{.Summary}}</p>
+      {{with .Metrics}}<ul class="chips">{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
+      <span class="more">Read case study {{template "icon-arrow"}}</span>
+    </a>
+    {{end}}
+  </div>
+</section>
+
+<section id="skills" class="section reveal">
+  <h2 class="section-title">Skills</h2>
+  <div class="grid skills">
+    {{range .Site.Skills}}
+    <div class="glass card"><h3>{{.Name}}</h3><ul class="tags">{{range .Items}}<li>{{.}}</li>{{end}}</ul></div>
+    {{end}}
+  </div>
+</section>
+
+{{with .Site.Profile}}
+<section id="resume" class="section reveal">
+  <h2 class="section-title">Resume</h2>
+  <div class="glass card resume">
+    {{with .ResumePreview}}<img class="resume-preview" src="{{asset .}}" alt="Preview of the first page of the resume" width="220" height="285" loading="lazy">{{end}}
+    <div>
+      <h3>{{.Name}} — Resume</h3>
+      <p class="muted">A one-page summary of my experience, skills and achievements.</p>
+      {{if not .ResumeUpdated.IsZero}}<p class="mono muted">Last updated {{.ResumeUpdated.Human}}</p>{{end}}
+      <div class="actions">
+        <a class="btn primary" href="{{asset .Resume}}" download>Download PDF {{template "icon-download"}}</a>
+        <a class="btn" href="{{asset .Resume}}" target="_blank" rel="noopener">View online {{template "icon-external"}}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{{end}}
+
+<section id="blog" class="section reveal">
+  <div class="section-head"><h2 class="section-title">Writing</h2>{{if .Site.Blog}}<a class="link" href="/blog/">See all {{template "icon-arrow"}}</a>{{end}}</div>
+  {{if .Site.Blog}}<div class="grid">{{range take 6 .Site.Blog}}{{template "blog-card" .}}{{end}}</div>
+  {{else}}<p class="glass card empty">Articles are on the way. Check back soon.</p>{{end}}
+</section>
+
+{{with .Site.Projects}}
+<section id="projects" class="section reveal">
+  <h2 class="section-title">Projects</h2>
+  <div class="grid">
+    {{range .}}
+    <article class="card glass project-card">
+      <h3>{{.Title}}</h3>
+      <p>{{.Description}}</p>
+      {{with .Tech}}<ul class="tags">{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
+      {{if or .Repo .Live}}<p class="links">{{with .Repo}}<a href="{{.}}" target="_blank" rel="noopener">{{template "icon-github"}} Code</a>{{end}}{{with .Live}}<a href="{{.}}" target="_blank" rel="noopener">{{template "icon-external"}} Live</a>{{end}}</p>{{end}}
+    </article>
+    {{end}}
+  </div>
+</section>
+{{end}}
+
+{{with .Site.Profile}}
+<section id="contact" class="section reveal">
+  <h2 class="section-title">Contact</h2>
+  <div class="glass card contact">
+    <div>
+      <h3>Let's talk</h3>
+      <p class="muted">Open to senior backend roles and good engineering conversations. Send a message or email me directly.</p>
+      <p><a class="link" href="mailto:{{.Email}}">{{template "icon-mail"}} {{.Email}}</a></p>
+    </div>
+    <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-contact data-configured="{{if .Web3FormsKey}}true{{end}}">
+      <input type="hidden" name="access_key" value="{{.Web3FormsKey}}">
+      <input type="hidden" name="subject" value="New message from your portfolio">
+      <input type="hidden" name="redirect" value="{{$.SiteRoot}}/#contact">
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label>Name<input name="name" required maxlength="100" autocomplete="name"></label>
+      <label>Email<input name="email" type="email" required maxlength="200" autocomplete="email"></label>
+      <label>Message<textarea name="message" required minlength="10" maxlength="5000" rows="5"></textarea></label>
+      <button class="btn primary" type="submit">Send message</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+{{end}}
+{{end}}

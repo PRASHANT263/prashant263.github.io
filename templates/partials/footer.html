@@ -1,0 +1,4 @@
+{{define "footer"}}<footer class="footer">
+  <p>© {{.Year}} {{.Site.Profile.Name}} · Built with Go, served as static HTML.</p>
+  {{template "socials" .Site.Profile.Socials}}
+</footer>{{end}}

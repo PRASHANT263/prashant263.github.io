@@ -1,0 +1,13 @@
+{{define "nav"}}<header class="nav glass">
+  <a class="brand" href="/">{{.Site.Profile.Name}}<span class="dot">.</span></a>
+  <nav id="nav-links" class="nav-links" aria-label="Main">
+    <a href="/#about">About</a>
+    <a href="/#experience">Experience</a>
+    <a href="/#work">Work</a>
+    <a href="/#resume">Resume</a>
+    <a href="/blog/">Blog</a>
+    <a href="/#contact">Contact</a>
+  </nav>
+  <button class="icon-btn theme-toggle" type="button" aria-label="Toggle color theme">{{template "icon-sun"}}{{template "icon-moon"}}</button>
+  <button class="icon-btn nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">{{template "icon-menu"}}</button>
+</header>{{end}}

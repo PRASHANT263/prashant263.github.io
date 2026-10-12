@@ -1,0 +1,31 @@
+{{define "base"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{if .Title}}{{.Title}} · {{.Site.Profile.Name}}{{else}}{{.Site.Profile.Name}} · {{.Site.Profile.Title}}{{end}}</title>
+<meta name="description" content="{{.Description}}">
+<link rel="canonical" href="{{.Canonical}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{if .Title}}{{.Title}} · {{.Site.Profile.Name}}{{else}}{{.Site.Profile.Name}} · {{.Site.Profile.Title}}{{end}}">
+<meta property="og:description" content="{{.Description}}">
+<meta property="og:url" content="{{.Canonical}}">
+<meta property="og:image" content="{{.SiteRoot}}/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b1020">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css">
+<script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script src="/js/main.js" defer></script>
+</head>
+<body>
+<div class="mesh" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></div>
+{{template "nav" .}}
+<main id="main">
+{{template "main" .}}
+</main>
+{{template "footer" .}}
+</body>
+</html>
+{{end}}

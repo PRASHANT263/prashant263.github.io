@@ -1,0 +1,11 @@
+{{define "main"}}
+<article class="prose-page">
+  <a class="link back" href="/blog/">← All writing</a>
+  <header class="page-head">
+    <h1>{{.Post.Title}}</h1>
+    <p class="mono muted"><time datetime="{{.Post.Date.ISO}}">{{.Post.Date.Human}}</time></p>
+    {{with .Post.Tags}}<ul class="tags">{{range .}}<li>#{{.}}</li>{{end}}</ul>{{end}}
+  </header>
+  <div class="section"><div class="glass card prose">{{.Body}}</div></div>
+</article>
+{{end}}

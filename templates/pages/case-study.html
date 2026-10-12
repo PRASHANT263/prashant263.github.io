@@ -1,0 +1,12 @@
+{{define "main"}}
+<article class="prose-page">
+  <a class="link back" href="/#work">← All case studies</a>
+  <header class="page-head">
+    <h1>{{.CaseStudy.Title}}</h1>
+    <p class="lead">{{.CaseStudy.Summary}}</p>
+    {{with .CaseStudy.Metrics}}<ul class="chips">{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
+    {{with .CaseStudy.Tags}}<ul class="tags">{{range .}}<li>#{{.}}</li>{{end}}</ul>{{end}}
+  </header>
+  <div class="section"><div class="glass card prose">{{.Body}}</div></div>
+</article>
+{{end}}

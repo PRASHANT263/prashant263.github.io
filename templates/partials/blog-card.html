@@ -1,0 +1,6 @@
+{{define "blog-card"}}<article class="card glass blog-card" data-tags="{{join .Tags " "}}">
+  <div class="meta"><span class="badge">{{if .IsExternal}}{{or .Source "Article"}}{{else}}Post{{end}}</span><time datetime="{{.Date.ISO}}">{{.Date.Human}}</time></div>
+  <h3><a href="{{.Href}}"{{if .IsExternal}} target="_blank" rel="noopener"{{end}}>{{.Title}}{{if .IsExternal}} {{template "icon-external"}}{{end}}</a></h3>
+  {{with .Summary}}<p>{{.}}</p>{{end}}
+  {{with .Tags}}<ul class="tags">{{range .}}<li>#{{.}}</li>{{end}}</ul>{{end}}
+</article>{{end}}

@@ -1,0 +1,1 @@
+{{define "socials"}}<ul class="socials">{{range .}}<li><a href="{{.URL}}" aria-label="{{.Label}}"{{if not (hasPrefix .URL "mailto:")}} target="_blank" rel="noopener"{{end}}>{{template "social-icon" .Icon}}</a></li>{{end}}</ul>{{end}}
