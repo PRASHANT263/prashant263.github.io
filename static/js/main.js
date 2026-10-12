@@ -102,6 +102,10 @@
       e.preventDefault();
       if (!form.reportValidity()) return;
       if (trap && trap.value) { sent(); return; } // only bots fill the hidden field
+      if (form.hasAttribute("data-unconfigured")) {
+        show("This form isn't connected yet. Please use the email link.", "error");
+        return;
+      }
       button.disabled = true;
       show("Sending…", "info");
       try {

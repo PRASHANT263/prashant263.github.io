@@ -12,8 +12,8 @@ photo: img/profile.jpeg         # your photo in the rounded frame on the right; 
 resume: resume.pdf
 resume_preview: img/resume-preview.png
 resume_updated: 2026-08-31
-# Contact form -> Google Form -> Google Sheet. Leave action empty to show
-# "coming soon" + your email instead. See DEPLOY.md "Contact form" for how to
+# Contact form -> Google Form -> Google Sheet. While action is empty the form
+# still shows, but Send says "not connected yet, please use the email link". See DEPLOY.md "Contact form" for how to
 # find these values (form ID and each question's entry.<number>).
 contact_form:
   action: ""                    # https://docs.google.com/forms/d/e/<form-id>/formResponse

@@ -108,9 +108,10 @@ func TestContactFormNoKey(t *testing.T) {
 	}
 	body := string(out)
 	if strings.Contains(body, "docs.google.com/forms") {
-		t.Error("home with no Google Form configured must not render the form")
+		t.Error("home with no Google Form configured must not post anywhere")
 	}
-	mustContain(t, body, "The contact form is coming soon.")
+	// The form still renders so the layout can be previewed; JS explains it isn't connected.
+	mustContain(t, body, `action="#contact"`, `data-unconfigured`, `<span>Contact number <span class="optional">(optional)</span></span>`)
 }
 
 func TestHeroGreetings(t *testing.T) {

@@ -58,7 +58,7 @@ git add -A && git commit -m "Add blog link" && git push
 The site updates about a minute after each push.
 
 ## Contact form (Google Form)
-Messages from the site's contact form are saved as rows in a Google Sheet. Free, no account keys.
+Messages from the site's contact form are saved as rows in a Google Sheet. Free, no account keys. Until `contact_form.action` is set, the form is visible but Send replies "not connected yet, please use the email link". Set it up before publishing.
 
 1. Go to https://forms.google.com and create a blank form, e.g. "Portfolio contact".
 2. Add four questions, in this order:
