@@ -3,7 +3,7 @@ title: Software Developer · Backend Systems
 pitch: I build reliable, low-latency backend systems for high-scale fintech lending, in Go, on AWS, with Domain-Driven Design.
 greetings: [Hi, नमस्ते, ನಮಸ್ಕಾರ]   # English, Hindi, Kannada; typed one after another in the hero
 status: Currently building at KreditBee   # small pill above your name; delete the line to hide it
-expertise: [Go, Domain-Driven Design, Distributed systems, Microservices, AWS, MySQL & Redis]   # footer list
+expertise: [Go, Distributed systems, Microservices, AWS, MySQL & Redis]   # footer list
 location: Bengaluru, India
 email: prashantab8505@gmail.com
 site_url: https://prashant263.github.io
@@ -25,7 +25,8 @@ about:                          # three cards; icon: code | target | users
     text: "Production reliability and clean architecture first. I mentor five engineers and led my team's adoption of AI-assisted development with Cursor and Claude Code."
 facts:                          # shown as a badge next to your title
   - { value: "4+ years", label: "of backend experience" }
-socials:
+socials:                        # icon: github | linkedin | medium | email
   - { label: GitHub, icon: github, url: "https://github.com/prashant263" }
-  - { label: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/" }   # replace with your profile URL
+  - { label: LinkedIn, icon: linkedin, url: "https://linkedin.com/in/prashant-b-935b62191" }
+  - { label: Medium, icon: medium, url: "https://medium.com/@prashantb_84095" }
   - { label: Email, icon: email, url: "mailto:prashantab8505@gmail.com" }

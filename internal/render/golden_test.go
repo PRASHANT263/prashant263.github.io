@@ -262,3 +262,16 @@ func TestFooterLocationHasPinIcon(t *testing.T) {
 	}
 	mustContain(t, string(out), `<span class="location">`, `<circle cx="12" cy="10" r="3"/></svg> Earth</span>`)
 }
+
+func TestMediumSocialHasItsOwnIcon(t *testing.T) {
+	s := fixtureSite()
+	s.Profile.Socials = append(s.Profile.Socials, content.Social{Label: "Medium", Icon: "medium", URL: "https://medium.com/@ada"})
+	out, err := realRenderer(t).Home(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out),
+		`<a href="https://medium.com/@ada" aria-label="Medium" target="_blank" rel="noopener"><svg class="icon medium"`,
+		`<li><a href="https://medium.com/@ada" target="_blank" rel="noopener">Medium</a></li>`,
+	)
+}

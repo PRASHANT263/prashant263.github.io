@@ -21,7 +21,7 @@ git commit -m "Initial portfolio"
 
 ## 3. Personalise before publishing
 In `content/profile.yaml`:
-- **LinkedIn:** set the `url` of the LinkedIn social to your profile URL.
+- **Social links:** GitHub, LinkedIn and Medium are set under `socials:`; double-check the URLs (icon can be github, linkedin, medium or email).
 - **Photo:** save a portrait photo (4:5, e.g. 800×1000 or larger) as `static/img/profile.jpg` and set `photo: img/profile.jpg`. It fills a rounded rectangle in the hero; other shapes are cropped from the centre.
 - **Contact form:** sign up free at https://web3forms.com with your email, and paste the access key into `web3forms_key`.
 - **Resume privacy:** `static/resume.pdf` **and** its preview image `static/img/resume-preview.png` are public, and both currently show your phone number. If you'd rather not publish it, replace the PDF with a version without the number, then regenerate the preview:
