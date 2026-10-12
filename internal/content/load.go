@@ -28,6 +28,7 @@ func Load(fsys fs.FS) (*Site, error) {
 		{"skills.yaml", &s.Skills, true},
 		{"projects.yaml", &s.Projects, false},
 		{"blog.yaml", &s.Blog, false},
+		{"recognition.yaml", &s.Recognition, false},
 	}
 	for _, f := range files {
 		if err := readYAML(fsys, f.name, f.out, f.required); err != nil {

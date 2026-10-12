@@ -22,6 +22,7 @@ func Validate(s *Site, static fs.FS) error {
 	p.projects(s.Projects)
 	p.blog(s.Blog)
 	p.caseStudies(s.CaseStudies)
+	p.recognition(s.Recognition)
 	return errors.Join(p...)
 }
 
@@ -161,5 +162,18 @@ func (p *problems) caseStudies(studies []CaseStudy) {
 		}
 		p.required(f, "title", cs.Title)
 		p.required(f, "summary", cs.Summary)
+	}
+}
+
+var recognitionKinds = map[string]bool{"": true, "award": true, "milestone": true, "education": true}
+
+func (p *problems) recognition(items []Recognition) {
+	const f = "recognition.yaml"
+	for i, r := range items {
+		p.required(f, fmt.Sprintf("[%d].title", i), r.Title)
+		p.required(f, fmt.Sprintf("[%d].when", i), r.When)
+		if !recognitionKinds[r.Kind] {
+			p.add(f, fmt.Sprintf("[%d].kind", i), fmt.Sprintf("%q must be award, milestone or education", r.Kind))
+		}
 	}
 }

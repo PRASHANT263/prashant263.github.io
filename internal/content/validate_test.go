@@ -33,6 +33,7 @@ func validSite() *Site {
 			{Title: "Local", Date: mustDate("2026-01-02"), Slug: "local"},
 		},
 		CaseStudies: []CaseStudy{{Slug: "migration", Title: "Migration", Summary: "Moved."}},
+		Recognition: []Recognition{{Title: "Star Performer", When: "2024", Kind: "award"}},
 	}
 }
 
@@ -65,6 +66,8 @@ func TestValidateProblems(t *testing.T) {
 		{"blog neither", func(s *Site) { s.Blog[0].URL = "" }, "blog.yaml: [0].url: set either url"},
 		{"blog bad slug", func(s *Site) { s.Blog[1].Slug = "Bad Slug" }, "blog.yaml: [1].slug:"},
 		{"blog duplicate slug", func(s *Site) { s.Blog[0].URL = ""; s.Blog[0].Slug = "local" }, "blog.yaml: [1].slug: duplicate"},
+		{"recognition missing when", func(s *Site) { s.Recognition[0].When = "" }, "recognition.yaml: [0].when: is required"},
+		{"recognition bad kind", func(s *Site) { s.Recognition[0].Kind = "trophy" }, "recognition.yaml: [0].kind:"},
 		{"case study missing summary", func(s *Site) { s.CaseStudies[0].Summary = "" }, "case-studies/migration.md: summary: is required"},
 		{"blog bad tag", func(s *Site) { s.Blog[1].Tags = []string{"Good", "Bad Tag"} }, `blog.yaml: [1].tags: "Good" must be lowercase letters, digits and hyphens`},
 	}

@@ -4,6 +4,7 @@
   <div class="hero">
     <div class="hero-photo"><img src="{{asset .Photo}}" alt="Photo of {{.Name}}" width="220" height="220" fetchpriority="high"></div>
     <div class="hero-text">
+      {{with .Status}}<p class="status-pill"><span class="status-dot" aria-hidden="true"></span>{{.}}</p>{{end}}
       <p class="eyebrow mono">{{with .Greetings}}<span class="sr-only">{{index . 0}}, I'm</span><span aria-hidden="true"><span class="greet" data-greetings="{{join . "|"}}">{{index . 0}}</span><span class="cursor"></span>, I'm</span>{{else}}Hi, I'm{{end}}</p>
       <h1>{{.Name}}</h1>
       <p class="role">{{.Title}}</p>
@@ -24,7 +25,8 @@
 {{end}}
 
 <section id="experience" class="section reveal">
-  <h2 class="section-title">Experience</h2>
+  <p class="section-eyebrow mono">Career</p>
+  <h2 class="section-title">Where I've built.</h2>
   {{range .Site.Experience}}
   <div class="company">
     <h3 class="company-name">{{.Name}}{{with .Location}} <span class="muted">· {{.}}</span>{{end}}</h3>
@@ -42,7 +44,8 @@
 </section>
 
 <section id="work" class="section reveal">
-  <h2 class="section-title">Case studies</h2>
+  <p class="section-eyebrow mono">Selected work</p>
+  <h2 class="section-title">Things I've shipped.</h2>
   <div class="grid">
     {{range .Site.CaseStudies}}
     <a class="card glass case-card" href="/case-studies/{{.Slug}}/">
@@ -56,7 +59,8 @@
 </section>
 
 <section id="skills" class="section reveal">
-  <h2 class="section-title">Skills</h2>
+  <p class="section-eyebrow mono">Toolkit</p>
+  <h2 class="section-title">What I work with.</h2>
   <div class="grid skills">
     {{range .Site.Skills}}
     <div class="glass card"><h3>{{.Name}}</h3><ul class="tags">{{range .Items}}<li>{{.}}</li>{{end}}</ul></div>
@@ -64,9 +68,27 @@
   </div>
 </section>
 
+{{with .Site.Recognition}}
+<section id="recognition" class="section reveal">
+  <p class="section-eyebrow mono">Recognition</p>
+  <h2 class="section-title">Awards &amp; milestones.</h2>
+  <div class="grid recognition">
+    {{range .}}
+    <article class="glass card recog-card">
+      <span class="recog-icon">{{if eq .Kind "education"}}{{template "icon-book"}}{{else if eq .Kind "milestone"}}{{template "icon-trending"}}{{else}}{{template "icon-award"}}{{end}}</span>
+      <h3>{{.Title}}</h3>
+      <p class="when mono">{{.When}}</p>
+      {{with .Detail}}<p class="muted">{{.}}</p>{{end}}
+    </article>
+    {{end}}
+  </div>
+</section>
+{{end}}
+
 {{with .Site.Profile}}
 <section id="resume" class="section reveal">
-  <h2 class="section-title">Resume</h2>
+  <p class="section-eyebrow mono">Resume</p>
+  <h2 class="section-title">The one-page version.</h2>
   <div class="glass card resume">
     {{with .ResumePreview}}<img class="resume-preview" src="{{asset .}}" alt="Preview of the first page of the resume" width="220" height="285" loading="lazy">{{end}}
     <div>
@@ -83,14 +105,16 @@
 {{end}}
 
 <section id="blog" class="section reveal">
-  <div class="section-head"><h2 class="section-title">Writing</h2>{{if .Site.Blog}}<a class="link" href="/blog/">See all {{template "icon-arrow"}}</a>{{end}}</div>
+  <p class="section-eyebrow mono">Writing</p>
+  <div class="section-head"><h2 class="section-title">Notes from the build.</h2>{{if .Site.Blog}}<a class="link" href="/blog/">See all {{template "icon-arrow"}}</a>{{end}}</div>
   {{if .Site.Blog}}<div class="grid">{{range take 6 .Site.Blog}}{{template "blog-card" .}}{{end}}</div>
   {{else}}<p class="glass card empty">Articles are on the way. Check back soon.</p>{{end}}
 </section>
 
 {{with .Site.Projects}}
 <section id="projects" class="section reveal">
-  <h2 class="section-title">Projects</h2>
+  <p class="section-eyebrow mono">Side projects</p>
+  <h2 class="section-title">Built for fun.</h2>
   <div class="grid">
     {{range .}}
     <article class="card glass project-card">
@@ -105,8 +129,22 @@
 {{end}}
 
 {{with .Site.Profile}}
+<section class="cta-band glass reveal" aria-label="Get in touch">
+  <div>
+    <h2>Building something in fintech or backend?</h2>
+    <p class="muted">I enjoy hard problems in distributed systems, lending and clean architecture. Let's talk.</p>
+  </div>
+  <div class="actions">
+    <a class="btn primary" href="mailto:{{.Email}}">Email me {{template "icon-mail"}}</a>
+    <a class="btn" href="{{asset .Resume}}" download>Download resume {{template "icon-download"}}</a>
+  </div>
+</section>
+{{end}}
+
+{{with .Site.Profile}}
 <section id="contact" class="section reveal">
-  <h2 class="section-title">Contact</h2>
+  <p class="section-eyebrow mono">Contact</p>
+  <h2 class="section-title">Say hello.</h2>
   <div class="glass card contact">
     <div>
       <h3>Let's talk</h3>

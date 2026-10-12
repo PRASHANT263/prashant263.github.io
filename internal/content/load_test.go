@@ -197,3 +197,18 @@ func TestLoadBadSlugSkipsFileAndValidateReports(t *testing.T) {
 		}
 	}
 }
+
+func TestLoadRecognition(t *testing.T) {
+	fsys := minimalFS()
+	fsys["recognition.yaml"] = &fstest.MapFile{Data: []byte(`
+- {title: Star Performer Award, when: "Nov 2023 · Aug 2024", kind: award, detail: Three times.}
+- {title: B.Tech, when: 2018 – 2022, kind: education}
+`)}
+	s, err := Load(fsys)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(s.Recognition) != 2 || s.Recognition[0].Kind != "award" || s.Recognition[1].When != "2018 – 2022" {
+		t.Errorf("recognition = %+v", s.Recognition)
+	}
+}

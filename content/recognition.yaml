@@ -1,0 +1,17 @@
+# Awards, career milestones and education, shown in the Recognition section.
+# kind picks the icon: award | milestone | education
+- title: Promoted to Senior Software Engineer
+  when: Mar 2026 · KreditBee
+  kind: milestone
+  detail: For driving critical backend initiatives, architectural migrations and high-impact partner integrations.
+- title: Star Performer Award
+  when: Nov 2023 · Aug 2024 · May 2025
+  kind: award
+  detail: Recognised three times at KreditBee.
+- title: Special Achievement Award
+  when: Dec 2022 · KreditBee
+  kind: award
+  detail: For backend enhancements and production support improvements.
+- title: B.Tech in Computer Science
+  when: 2018 – 2022 · PES University, Bengaluru
+  kind: education

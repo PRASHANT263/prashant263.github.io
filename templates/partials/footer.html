@@ -1,4 +1,38 @@
 {{define "footer"}}<footer class="footer">
-  <p>© {{.Year}} {{.Site.Profile.Name}} · Built with Go, served as static HTML.</p>
-  {{template "socials" .Site.Profile.Socials}}
+  {{with .Site.Profile}}
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="/">{{.Name}}<span class="dot">.</span></a>
+      <p class="muted">{{.Title}}{{with .Location}}<br>{{.}}{{end}}</p>
+      <p><a class="link" href="mailto:{{.Email}}">{{.Email}}</a></p>
+    </div>
+    <nav aria-label="Footer">
+      <h4>Quick links</h4>
+      <ul>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#experience">Experience</a></li>
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+    {{with .Expertise}}
+    <div>
+      <h4>Expertise</h4>
+      <ul>{{range .}}<li>{{.}}</li>{{end}}</ul>
+    </div>
+    {{end}}
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="{{asset .Resume}}" target="_blank" rel="noopener">Resume (PDF)</a></li>
+        {{range .Socials}}{{if not (hasPrefix .URL "mailto:")}}<li><a href="{{.URL}}" target="_blank" rel="noopener">{{.Label}}</a></li>{{end}}{{end}}
+      </ul>
+    </div>
+  </div>
+  {{end}}
+  <div class="footer-bottom">
+    <p>© {{.Year}} {{.Site.Profile.Name}} · Built with Go, served as static HTML.</p>
+    {{template "socials" .Site.Profile.Socials}}
+  </div>
 </footer>{{end}}

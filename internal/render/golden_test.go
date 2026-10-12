@@ -25,6 +25,7 @@ func fixtureSite() *content.Site {
 			About: []string{"Hello."}, Location: "Earth", Email: "ada@example.com",
 			Photo: "img/ada.jpg", Resume: "resume.pdf", ResumePreview: "img/resume.png",
 			ResumeUpdated: d("2026-01-02"), Web3FormsKey: "test-key", SiteURL: "https://ada.example.com",
+			Status: "Currently building at Acme", Expertise: []string{"Go", "DDD"},
 			Facts: []content.Fact{{Value: "5", Label: "Years"}},
 			Socials: []content.Social{
 				{Label: "GitHub", Icon: "github", URL: "https://github.com/ada"},
@@ -40,6 +41,7 @@ func fixtureSite() *content.Site {
 			{Title: "External", Date: d("2026-03-01"), URL: "https://medium.com/@ada/x", Source: "Medium", Tags: []string{"go"}, Summary: "An article."},
 			{Title: "Local", Date: d("2026-02-01"), Slug: "local", Tags: []string{"ddd"}, Body: "Some *text*."},
 		},
+		Recognition: []content.Recognition{{Title: "Star Performer", When: "2024", Detail: "Twice.", Kind: "award"}, {Title: "B.Tech", When: "2018 – 2022", Kind: "education"}},
 		CaseStudies: []content.CaseStudy{{Slug: "migration", Title: "Migration", Summary: "Moved to DDD.", Metrics: []string{"faster"}, Tags: []string{"ddd"}, Body: "## Problem\n\nIt was slow.\n"}},
 	}
 }
@@ -153,4 +155,24 @@ func TestRealTemplatesGolden(t *testing.T) {
 			t.Errorf("%s differs from golden file; review the diff, then run: go test ./internal/render -update", name)
 		}
 	}
+}
+
+func TestHomeSectionsFromSashwatIdeas(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out),
+		// status pill above the name
+		`<p class="status-pill"><span class="status-dot" aria-hidden="true"></span>Currently building at Acme</p>`,
+		// eyebrow labels with short headings
+		`<p class="section-eyebrow mono">Career</p>`,
+		`<h2 class="section-title">Where I've built.</h2>`,
+		// recognition section
+		`id="recognition"`, `<h3>Star Performer</h3>`, `<p class="when mono">2018 – 2022</p>`,
+		// closing call-to-action band
+		`class="cta-band`, `href="mailto:ada@example.com"`,
+		// richer footer
+		`<h4>Quick links</h4>`, `<h4>Expertise</h4>`, `<li>DDD</li>`, `<h4>Resources</h4>`,
+	)
 }

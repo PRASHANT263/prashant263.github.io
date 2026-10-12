@@ -8,6 +8,7 @@ type Site struct {
 	Projects    []Project
 	Blog        []BlogEntry // newest first
 	CaseStudies []CaseStudy // by Order, then Slug
+	Recognition []Recognition
 }
 
 type Profile struct {
@@ -15,6 +16,8 @@ type Profile struct {
 	Title         string   `yaml:"title"`
 	Pitch         string   `yaml:"pitch"`
 	Greetings     []string `yaml:"greetings"` // optional; the hero types each one in turn
+	Status        string   `yaml:"status"`    // optional pill above the name, e.g. "Currently building at KreditBee"
+	Expertise     []string `yaml:"expertise"` // optional footer list
 	About         []string `yaml:"about"`
 	Location      string   `yaml:"location"`
 	Email         string   `yaml:"email"`
@@ -97,4 +100,13 @@ type CaseStudy struct {
 	Tags    []string `yaml:"tags"`
 	Metrics []string `yaml:"metrics"`
 	Body    string   `yaml:"-"` // Markdown
+}
+
+// Recognition is an award, career milestone or degree shown in the
+// Recognition section.
+type Recognition struct {
+	Title  string `yaml:"title"`
+	When   string `yaml:"when"` // free text, e.g. "Nov 2023 · Aug 2024 · May 2025"
+	Detail string `yaml:"detail"`
+	Kind   string `yaml:"kind"` // award | milestone | education; picks the icon
 }
