@@ -11,7 +11,7 @@ The lending systems had grown as a tightly coupled monolith, supporting multiple
 
 ## What I did
 
-As a Senior Software Engineer, I led the migration of these lending systems to a **Domain-Driven Design** model, introducing three dedicated layers:
+At KreditBee, I led the migration of these lending systems to a **Domain-Driven Design** model, introducing three dedicated layers:
 
 - **Domain layer**: the core lending concepts and business rules.
 - **Service layer**: the use cases that orchestrate those rules for each product flow.
