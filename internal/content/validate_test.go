@@ -96,3 +96,36 @@ func TestValidateReportsEveryProblem(t *testing.T) {
 		}
 	}
 }
+
+func TestValidateGoogleForm(t *testing.T) {
+	good := GoogleForm{Action: "https://docs.google.com/forms/d/e/1FAIpQLSf-abc_123/formResponse", Name: "entry.111", Phone: "entry.222", Email: "entry.333", Message: "entry.444"}
+	tests := []struct {
+		name   string
+		mutate func(*GoogleForm)
+		want   string
+	}{
+		{"valid", func(*GoogleForm) {}, ""},
+		{"phone optional", func(g *GoogleForm) { g.Phone = "" }, ""},
+		{"viewform url", func(g *GoogleForm) { g.Action = "https://docs.google.com/forms/d/e/abc/viewform" }, "contact_form.action:"},
+		{"missing email field", func(g *GoogleForm) { g.Email = "" }, "contact_form.email: is required"},
+		{"bad entry id", func(g *GoogleForm) { g.Name = "name" }, "contact_form.name:"},
+		{"fields without action", func(g *GoogleForm) { g.Action = "" }, "contact_form.action: is required"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := validSite()
+			s.Profile.ContactForm = good
+			tt.mutate(&s.Profile.ContactForm)
+			err := Validate(s, testStatic)
+			if tt.want == "" {
+				if err != nil {
+					t.Fatalf("unexpected error: %v", err)
+				}
+				return
+			}
+			if err == nil || !strings.Contains(err.Error(), tt.want) {
+				t.Fatalf("err = %v, want %q", err, tt.want)
+			}
+		})
+	}
+}

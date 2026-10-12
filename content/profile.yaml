@@ -12,7 +12,15 @@ photo: img/profile.jpeg         # your photo in the rounded frame on the right; 
 resume: resume.pdf
 resume_preview: img/resume-preview.png
 resume_updated: 2026-08-31
-web3forms_key: ""               # free key from https://web3forms.com (enables the contact form)
+# Contact form -> Google Form -> Google Sheet. Leave action empty to show
+# "coming soon" + your email instead. See DEPLOY.md "Contact form" for how to
+# find these values (form ID and each question's entry.<number>).
+contact_form:
+  action: ""                    # https://docs.google.com/forms/d/e/<form-id>/formResponse
+  name: ""                      # entry.<number> of the "Name" question
+  phone: ""                     # entry.<number> of "Contact number" (optional question)
+  email: ""                     # entry.<number> of "Email"
+  message: ""                   # entry.<number> of "Message"
 about:                          # three cards; icon: code | target | users
   - title: What I do
     icon: code

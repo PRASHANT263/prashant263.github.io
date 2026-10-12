@@ -26,7 +26,7 @@ type Profile struct {
 	Resume        string       `yaml:"resume"`         // path under static/
 	ResumePreview string       `yaml:"resume_preview"` // optional, path under static/
 	ResumeUpdated Date         `yaml:"resume_updated"`
-	Web3FormsKey  string       `yaml:"web3forms_key"`
+	ContactForm   GoogleForm   `yaml:"contact_form"`
 	SiteURL       string       `yaml:"site_url"`
 	Facts         []Fact       `yaml:"facts"`
 	Socials       []Social     `yaml:"socials"`
@@ -118,3 +118,18 @@ type AboutPoint struct {
 	Icon  string `yaml:"icon"` // code | target | users; optional
 	Text  string `yaml:"text"`
 }
+
+// GoogleForm sends the contact form straight to a Google Form, whose
+// responses land in its linked Google Sheet. Each field holds the
+// question's "entry.<number>" ID from the form's pre-filled link.
+type GoogleForm struct {
+	Action  string `yaml:"action"` // https://docs.google.com/forms/d/e/<form-id>/formResponse
+	Name    string `yaml:"name"`
+	Phone   string `yaml:"phone"` // optional question
+	Email   string `yaml:"email"`
+	Message string `yaml:"message"`
+}
+
+// Enabled reports whether a form is configured; otherwise the page shows
+// the email fallback.
+func (g GoogleForm) Enabled() bool { return g.Action != "" }

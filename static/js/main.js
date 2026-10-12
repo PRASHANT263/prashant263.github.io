@@ -87,34 +87,31 @@
     });
   }
 
-  // Contact form via Web3Forms; without JS the form posts normally.
+  // Contact form → Google Form (responses land in its Google Sheet).
+  // Google doesn't let other sites read the reply (no CORS), so a request that
+  // completes without a network error counts as sent. Without JS the form
+  // posts normally and Google's confirmation opens in a new tab.
   const form = document.querySelector("form[data-contact]");
   if (form) {
     const status = form.querySelector(".form-status");
     const button = form.querySelector("button[type=submit]");
+    const trap = form.querySelector("[data-honeypot]");
     const show = (msg, kind) => { status.textContent = msg; status.dataset.kind = kind; };
+    const sent = () => { form.reset(); show("Thanks! Your message has been sent.", "success"); };
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!form.reportValidity()) return;
-      const data = Object.fromEntries(new FormData(form));
-      if (data.botcheck) {
-        show("Thanks! Your message has been sent.", "success");
-        return;
-      }
-      delete data.redirect;
+      if (trap && trap.value) { sent(); return; } // only bots fill the hidden field
       button.disabled = true;
       show("Sending…", "info");
       try {
-        const res = await fetch(form.action, {
+        await fetch(form.action, {
           method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data),
+          mode: "no-cors",
+          body: new URLSearchParams(new FormData(form)),
           signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined,
         });
-        const body = await res.json().catch(() => ({}));
-        if (!res.ok || body.success === false) throw new Error(body.message || "request failed");
-        form.reset();
-        show("Thanks! Your message has been sent.", "success");
+        sent();
       } catch (err) {
         show("Sorry, the message couldn't be sent. Please email me directly.", "error");
       } finally {

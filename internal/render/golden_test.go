@@ -24,7 +24,7 @@ func fixtureSite() *content.Site {
 			Name: "Ada", Title: "Backend Engineer", Pitch: "Builds reliable systems.",
 			About: []content.AboutPoint{{Title: "What I do", Icon: "code", Text: "Hello."}}, Location: "Earth", Email: "ada@example.com",
 			Photo: "img/ada.jpg", Resume: "resume.pdf", ResumePreview: "img/resume.png",
-			ResumeUpdated: d("2026-01-02"), Web3FormsKey: "test-key", SiteURL: "https://ada.example.com",
+			ResumeUpdated: d("2026-01-02"), ContactForm: content.GoogleForm{Action: "https://docs.google.com/forms/d/e/FORM123/formResponse", Name: "entry.1", Phone: "entry.2", Email: "entry.3", Message: "entry.4"}, SiteURL: "https://ada.example.com",
 			Status: "Currently building at Acme", Expertise: []string{"Go", "DDD"},
 			Facts: []content.Fact{{Value: "5", Label: "Years"}},
 			Socials: []content.Social{
@@ -89,7 +89,7 @@ func TestRealTemplatesContent(t *testing.T) {
 		`href="/case-studies/migration/"`,
 		`href="https://medium.com/@ada/x" target="_blank" rel="noopener"`,
 		`href="/blog/local/"`,
-		`name="access_key" value="test-key"`,
+		`action="https://docs.google.com/forms/d/e/FORM123/formResponse"`,
 		`© 2026 Ada`,
 	)
 	mustContain(t, string(pages["blog.html"]), `<title>Writing · Ada</title>`, `data-tag="ddd"`, `data-blog-list`)
@@ -101,14 +101,14 @@ func TestRealTemplatesContent(t *testing.T) {
 func TestContactFormNoKey(t *testing.T) {
 	r := realRenderer(t)
 	s := fixtureSite()
-	s.Profile.Web3FormsKey = ""
+	s.Profile.ContactForm = content.GoogleForm{}
 	out, err := r.Home(s)
 	if err != nil {
 		t.Fatal(err)
 	}
 	body := string(out)
-	if strings.Contains(body, "api.web3forms.com") {
-		t.Error("home with no Web3FormsKey must not render the web3forms form")
+	if strings.Contains(body, "docs.google.com/forms") {
+		t.Error("home with no Google Form configured must not render the form")
 	}
 	mustContain(t, body, "The contact form is coming soon.")
 }
@@ -274,5 +274,20 @@ func TestMediumSocialHasItsOwnIcon(t *testing.T) {
 	mustContain(t, string(out),
 		`<a href="https://medium.com/@ada" aria-label="Medium" target="_blank" rel="noopener"><svg class="icon medium"`,
 		`<li><a href="https://medium.com/@ada" target="_blank" rel="noopener">Medium</a></li>`,
+	)
+}
+
+func TestContactFormPostsToGoogleForm(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out),
+		`<form class="contact-form" action="https://docs.google.com/forms/d/e/FORM123/formResponse" method="POST" target="_blank" data-contact>`,
+		`<input name="entry.1" required maxlength="100" autocomplete="name">`,
+		`<input name="entry.2" type="tel"`,
+		`<input name="entry.3" type="email" required`,
+		`<textarea name="entry.4" required`,
+		`data-honeypot`,
 	)
 }

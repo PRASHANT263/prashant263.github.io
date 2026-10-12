@@ -23,7 +23,7 @@ git commit -m "Initial portfolio"
 In `content/profile.yaml`:
 - **Social links:** GitHub, LinkedIn and Medium are set under `socials:`; double-check the URLs (icon can be github, linkedin, medium or email).
 - **Photo:** save a portrait photo (4:5, e.g. 800×1000 or larger) as `static/img/profile.jpg` and set `photo: img/profile.jpg`. It fills a rounded rectangle in the hero; other shapes are cropped from the centre.
-- **Contact form:** sign up free at https://web3forms.com with your email, and paste the access key into `web3forms_key`.
+- **Contact form:** messages go to a Google Form and its Google Sheet. Set up `contact_form:` in `profile.yaml` with the steps in [Contact form (Google Form)](#contact-form-google-form) below.
 - **Resume privacy:** `static/resume.pdf` **and** its preview image `static/img/resume-preview.png` are public, and both currently show your phone number. If you'd rather not publish it, replace the PDF with a version without the number, then regenerate the preview:
   `sips -s format png --resampleWidth 600 static/resume.pdf --out static/img/resume-preview.png`
 - **Availability line:** the Contact section says "Open to backend roles". Edit or remove it in `templates/pages/home.html` if you don't want that public.
@@ -56,6 +56,32 @@ go run ./cmd/serve          # preview
 git add -A && git commit -m "Add blog link" && git push
 ```
 The site updates about a minute after each push.
+
+## Contact form (Google Form)
+Messages from the site's contact form are saved as rows in a Google Sheet. Free, no account keys.
+
+1. Go to https://forms.google.com and create a blank form, e.g. "Portfolio contact".
+2. Add four questions, in this order:
+   - **Name**: Short answer, Required
+   - **Contact number**: Short answer (optional)
+   - **Email**: Short answer, Required
+   - **Message**: Paragraph, Required
+3. **Settings** tab: under *Responses*, make sure **Collect email addresses** is *Do not collect*, and **Restrict to users in your organisation** / **Limit to 1 response** are *off*. (If sign-in is required, the site can't submit.)
+4. **Responses** tab: click **Link to Sheets** and create a new spreadsheet. Every message lands there.
+5. Find the field IDs: click **⋮ → Get pre-filled link**, type `NAME`, `PHONE`, `EMAIL`, `MESSAGE` into the four answers, click **Get link** and copy it. It looks like:
+   `https://docs.google.com/forms/d/e/1FAIpQLSe.../viewform?usp=pp_url&entry.123=NAME&entry.456=PHONE&entry.789=EMAIL&entry.101=MESSAGE`
+6. Fill in `contact_form:` in `content/profile.yaml`:
+   ```yaml
+   contact_form:
+     action: "https://docs.google.com/forms/d/e/1FAIpQLSe.../formResponse"   # same ID, but end with /formResponse
+     name: "entry.123"
+     phone: "entry.456"
+     email: "entry.789"
+     message: "entry.101"
+   ```
+7. Test it: run `go run ./cmd/serve`, send a message from http://localhost:8080/#contact, and check that a new row appears in the Sheet within a few seconds. (The site can't read Google's reply, so this check is the way to confirm it works.)
+
+Tip: in the Form, **Responses → ⋮ → Get email notifications for new responses** emails you whenever someone writes.
 
 ## Optional: custom domain
 Buy a domain, set it in repo **Settings → Pages → Custom domain** (with Actions-based Pages a `CNAME` file isn't used), update `site_url` in `profile.yaml`, push, then follow GitHub's "Managing a custom domain" guide for the DNS records.

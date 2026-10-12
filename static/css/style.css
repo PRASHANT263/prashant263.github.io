@@ -198,6 +198,7 @@ main { width: var(--frame); margin: 0 auto; }
 .contact-form input:focus, .contact-form textarea:focus { outline: 2px solid transparent; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
 .contact-form button { justify-self: start; }
 .hp { position: absolute; left: -9999px; }
+.contact-form .optional { color: var(--muted); font-weight: 400; }
 .form-status { min-height: 1.5em; margin: 0; font-size: .95rem; }
 .form-status[data-kind="success"] { color: var(--accent-2); }
 .form-status[data-kind="error"] { color: var(--error); }

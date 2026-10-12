@@ -76,6 +76,7 @@ func (p *problems) profile(pr Profile, static fs.FS) {
 	p.staticFile(static, f, "avatar", pr.Avatar)
 	p.staticFile(static, f, "resume", pr.Resume)
 	p.staticFile(static, f, "resume_preview", pr.ResumePreview)
+	p.contactForm(pr.ContactForm)
 	for i, a := range pr.About {
 		p.required(f, fmt.Sprintf("about[%d].title", i), a.Title)
 		p.required(f, fmt.Sprintf("about[%d].text", i), a.Text)
@@ -187,3 +188,31 @@ func (p *problems) recognition(items []Recognition) {
 }
 
 var aboutIcons = map[string]bool{"": true, "code": true, "target": true, "users": true}
+
+var (
+	googleFormAction = regexp.MustCompile(`^https://docs\.google\.com/forms/d/e/[A-Za-z0-9_-]+/formResponse$`)
+	googleFormEntry  = regexp.MustCompile(`^entry\.[0-9]+$`)
+)
+
+func (p *problems) contactForm(g GoogleForm) {
+	const f = "profile.yaml"
+	if g == (GoogleForm{}) {
+		return // not configured: the page shows the email fallback
+	}
+	p.required(f, "contact_form.action", g.Action)
+	if g.Action != "" && !googleFormAction.MatchString(g.Action) {
+		p.add(f, "contact_form.action", fmt.Sprintf("%q must look like https://docs.google.com/forms/d/e/<id>/formResponse", g.Action))
+	}
+	for _, q := range []struct {
+		field, value string
+		required     bool
+	}{{"name", g.Name, true}, {"phone", g.Phone, false}, {"email", g.Email, true}, {"message", g.Message, true}} {
+		field := "contact_form." + q.field
+		if q.required {
+			p.required(f, field, q.value)
+		}
+		if q.value != "" && !googleFormEntry.MatchString(q.value) {
+			p.add(f, field, fmt.Sprintf("%q must be a Google Form field ID like entry.123456789", q.value))
+		}
+	}
+}
