@@ -26,7 +26,7 @@ In `content/profile.yaml`:
 - **Contact form:** sign up free at https://web3forms.com with your email, and paste the access key into `web3forms_key`.
 - **Resume privacy:** `static/resume.pdf` **and** its preview image `static/img/resume-preview.png` are public, and both currently show your phone number. If you'd rather not publish it, replace the PDF with a version without the number, then regenerate the preview:
   `sips -s format png --resampleWidth 600 static/resume.pdf --out static/img/resume-preview.png`
-- **Availability line:** the Contact section says "Open to senior backend roles". Edit or remove it in `templates/pages/home.html` if you don't want that public.
+- **Availability line:** the Contact section says "Open to backend roles". Edit or remove it in `templates/pages/home.html` if you don't want that public.
 - **Case studies:** `content/case-studies/*.md` stick to what's on your resume. Add detail you're comfortable discussing in interviews.
 
 Check locally: `go run ./cmd/serve` and open http://localhost:8080.
