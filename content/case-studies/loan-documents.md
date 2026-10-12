@@ -1,39 +1,36 @@
 ---
 title: Loan Document Generation Service
-summary: A scalable, low-latency service that renders RBI-compliant loan agreements in 10 languages from HTML templates through headless Chrome.
+summary: A scalable, low-latency service that generates RBI-compliant loan agreements in 10 languages using HTML templates and a headless Chrome PDF pipeline.
 order: 3
 tags: [go, pdf, compliance]
 metrics: ["10 languages", "RBI-compliant", "Low latency"]
 ---
-## Problem
+## Context
 
-Every disbursed loan needs a legally compliant agreement, generated in the middle of the loan journey and in the borrower's language. Documents vary by product and partner, have to be exactly right for compliance, and must be fast enough not to slow the journey down.
+Every loan needs a compliant loan agreement, and borrowers need it in a language they can read. Documents are generated within the loan journey, so the service has to be fast and scalable as well as correct.
 
-## Approach
+## What I did
 
-I designed and built a dedicated document generation service:
+I designed and built a dedicated Loan Document Generation service:
 
-- **HTML templates** per document and language, filled with loan data in Go.
-- **Headless Chrome** turns the rendered HTML into PDF. A browser engine gives correct text shaping for Indian scripts, so all 10 languages render properly without a custom typesetting stack.
-- Built as its own service so generation scales independently of the rest of the lending stack.
+- **HTML templates** define each agreement, with versions for each of the 10 supported languages.
+- A **headless Chrome PDF pipeline** turns the rendered HTML into the final PDF agreement.
+- The service is built to be **scalable and low-latency**, and the agreements meet RBI requirements.
 
 ## Architecture
 
-<svg class="diagram" viewBox="0 0 770 130" role="img" aria-label="Loan data and a language template are rendered to HTML in Go, converted by headless Chrome, and produce a PDF agreement">
+<svg class="diagram" viewBox="0 0 770 130" role="img" aria-label="Loan data fills an HTML template in one of ten languages, headless Chrome converts it, and the result is a PDF loan agreement">
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker></defs>
-<rect class="box" x="10" y="36" width="125" height="56" rx="10"/><text x="72" y="64">Loan data</text>
-<rect class="box" x="165" y="36" width="125" height="56" rx="10"/><text x="227" y="56">Template</text><text class="label" x="227" y="76">10 languages</text>
-<rect class="box" x="320" y="36" width="125" height="56" rx="10"/><text x="382" y="56">Go renderer</text><text class="label" x="382" y="76">HTML</text>
-<rect class="box alt" x="475" y="36" width="125" height="56" rx="10"/><text x="537" y="56">Headless</text><text x="537" y="76">Chrome</text>
-<rect class="box alt" x="630" y="36" width="130" height="56" rx="10"/><text x="695" y="56">Agreement</text><text class="label" x="695" y="76">PDF</text>
-<line class="edge" x1="135" y1="64" x2="161" y2="64"/>
-<line class="edge" x1="290" y1="64" x2="316" y2="64"/>
-<line class="edge" x1="445" y1="64" x2="471" y2="64"/>
-<line class="edge" x1="600" y1="64" x2="626" y2="64"/>
+<rect class="box" x="10" y="36" width="160" height="56" rx="10"/><text x="90" y="64">Loan data</text>
+<rect class="box" x="210" y="36" width="160" height="56" rx="10"/><text x="290" y="56">HTML template</text><text class="label" x="290" y="76">10 languages</text>
+<rect class="box alt" x="410" y="36" width="160" height="56" rx="10"/><text x="490" y="56">Headless</text><text x="490" y="76">Chrome</text>
+<rect class="box alt" x="610" y="36" width="150" height="56" rx="10"/><text x="685" y="56">Agreement</text><text class="label" x="685" y="76">PDF</text>
+<line class="edge" x1="170" y1="64" x2="206" y2="64"/>
+<line class="edge" x1="370" y1="64" x2="406" y2="64"/>
+<line class="edge" x1="570" y1="64" x2="606" y2="64"/>
 </svg>
 
 ## Result
 
 - RBI-compliant loan agreements in **10 languages**.
-- A scalable, low-latency pipeline that fits inside the loan journey.
-- Template-driven, so new documents and languages are content changes rather than new code paths.
+- A scalable, low-latency generation pipeline that runs inside the loan journey.

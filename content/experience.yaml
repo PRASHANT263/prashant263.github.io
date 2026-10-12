@@ -8,7 +8,7 @@
         - Led the migration of lending systems from a tightly coupled monolith to a Domain-Driven Design model, introducing dedicated domain, service and gateway layers to establish clear service boundaries and improve maintainability and feature delivery.
         - Mentoring 5 engineers through code reviews, production debugging and fund-flow design discussions, reinforcing engineering best practices and improving code quality.
         - Spearheaded team-wide adoption of AI-assisted development tools, including Cursor and Claude Code, to accelerate implementation and reduce developer toil.
-        - Drove architectural improvements across critical lending workflows supporting multiple lending products and partner integrations, improving maintainability and production reliability.
+        - Managed architectural improvements across critical lending workflows supporting multiple lending products and partner integrations, improving maintainability and production reliability.
     - title: Software Engineer
       start: Dec 2022
       end: Mar 2026
@@ -25,5 +25,5 @@
       end: Nov 2022
       highlights: ["Go · MySQL · AWS", "Fund-flow observability"]
       bullets:
-        - Ramped up on the production backend stack (Go, MySQL and AWS) alongside ReactJS, then independently owned fund-related bug fixes and product tasks.
+        - Ramped up on the production backend stack (Go, MySQL and AWS) alongside ReactJS, then began independently owning small fund-related bug fixes and product tasks.
         - Shipped lender website link integrations for all co-lending partners, and added fund assignment events that surface fund rejections and the specific rule that failed, improving debugging of fund-flow issues.
