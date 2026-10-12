@@ -244,3 +244,13 @@ func TestHeroAvatarCircleOnLeft(t *testing.T) {
 	}
 	mustContain(t, body, `<img src="/img/avatar.svg" alt="" width="220" height="220">`)
 }
+
+func TestEmailAddressShownOnce(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if n := strings.Count(string(out), ">ada@example.com<") + strings.Count(string(out), "</svg> ada@example.com<"); n != 1 {
+		t.Errorf("email address shown as text %d times, want 1 (Contact only)", n)
+	}
+}
