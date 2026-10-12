@@ -1,3 +1,7 @@
+- title: Go Senior Developer Concepts
+  description: An interactive study guide for senior Go interviews with 150 topics across Go internals, DSA patterns, low- and high-level design, behavioral, ops, data engineering, AI/LLM and backend, plus a 13-week roadmap, quizzes, bookmarks and progress tracking.
+  tech: [Go, DSA, LLD, HLD, System Design]
+  live: https://go-senior-dev.onrender.com/
 - title: This portfolio
   description: A custom static site generator in Go. Content lives in YAML and Markdown, is validated at build time, rendered with html/template and goldmark, link-checked, and deployed to GitHub Pages by GitHub Actions.
   tech: [Go, html/template, goldmark, CSS, GitHub Actions]

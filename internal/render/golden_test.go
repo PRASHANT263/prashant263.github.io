@@ -337,3 +337,15 @@ func TestBlogLinksScrollToWriting(t *testing.T) {
 		t.Errorf("Blog links to /#blog = %d, want 2 (nav + footer)", n)
 	}
 }
+
+func TestProjectsSitBelowToolkit(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := string(out)
+	skills, projects, recognition := strings.Index(body, `id="skills"`), strings.Index(body, `id="projects"`), strings.Index(body, `id="recognition"`)
+	if !(skills >= 0 && skills < projects && projects < recognition) {
+		t.Errorf("want Toolkit, then Side projects, then Recognition; got skills=%d projects=%d recognition=%d", skills, projects, recognition)
+	}
+}

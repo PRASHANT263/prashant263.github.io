@@ -76,6 +76,23 @@
   </div>
 </section>
 
+{{with .Site.Projects}}
+<section id="projects" class="section reveal">
+  <p class="section-eyebrow mono">Side projects</p>
+  <h2 class="section-title">Built for fun.</h2>
+  <div class="grid">
+    {{range .}}
+    <article class="card glass project-card">
+      <h3>{{.Title}}</h3>
+      <p>{{.Description}}</p>
+      {{with .Tech}}<ul class="tags">{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
+      {{if or .Repo .Live}}<p class="links">{{with .Repo}}<a href="{{.}}" target="_blank" rel="noopener">{{template "icon-github"}} Code</a>{{end}}{{with .Live}}<a href="{{.}}" target="_blank" rel="noopener">{{template "icon-external"}} Live</a>{{end}}</p>{{end}}
+    </article>
+    {{end}}
+  </div>
+</section>
+{{end}}
+
 {{with .Site.Recognition}}
 <section id="recognition" class="section reveal">
   <p class="section-eyebrow mono">Recognition</p>
@@ -118,23 +135,6 @@
   {{if .Site.Blog}}<div class="grid">{{range take 6 .Site.Blog}}{{template "blog-card" .}}{{end}}</div>
   {{else}}<p class="glass card empty">Articles are on the way. Check back soon.</p>{{end}}
 </section>
-
-{{with .Site.Projects}}
-<section id="projects" class="section reveal">
-  <p class="section-eyebrow mono">Side projects</p>
-  <h2 class="section-title">Built for fun.</h2>
-  <div class="grid">
-    {{range .}}
-    <article class="card glass project-card">
-      <h3>{{.Title}}</h3>
-      <p>{{.Description}}</p>
-      {{with .Tech}}<ul class="tags">{{range .}}<li>{{.}}</li>{{end}}</ul>{{end}}
-      {{if or .Repo .Live}}<p class="links">{{with .Repo}}<a href="{{.}}" target="_blank" rel="noopener">{{template "icon-github"}} Code</a>{{end}}{{with .Live}}<a href="{{.}}" target="_blank" rel="noopener">{{template "icon-external"}} Live</a>{{end}}</p>{{end}}
-    </article>
-    {{end}}
-  </div>
-</section>
-{{end}}
 
 {{with .Site.Profile}}
 <section id="contact" class="section reveal">
