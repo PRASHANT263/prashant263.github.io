@@ -192,12 +192,18 @@ main { width: var(--frame); margin: 0 auto; }
 /* ---------- Contact ---------- */
 .contact { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; padding: clamp(24px, 3.5vw, 48px); background: linear-gradient(135deg, color-mix(in srgb, var(--blob-1) 18%, transparent), color-mix(in srgb, var(--blob-3) 14%, transparent)), var(--glass); }
 .contact h3 { font-size: 1.4rem; }
-.contact-form { display: grid; gap: 14px; }
+/* Form fields sit in a glass panel: short fields on the left, the message box
+   on the right spanning their height, so the form stays compact. */
+.contact-form { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "name message" "phone message" "email message" "actions actions"; gap: 14px 18px; align-content: start; padding: clamp(16px, 2vw, 24px); border-radius: var(--radius); border: 1px solid var(--border); background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.f-name { grid-area: name; } .f-phone { grid-area: phone; } .f-email { grid-area: email; }
+.f-message { grid-area: message; grid-template-rows: auto 1fr; }
+.f-message textarea { height: 100%; min-height: 150px; }
+.form-actions { grid-area: actions; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+@media (max-width: 1100px) { .contact-form { grid-template-columns: 1fr; grid-template-areas: "name" "phone" "email" "message" "actions"; } }
 .contact-form label { display: grid; gap: 6px; font-weight: 600; font-size: .9rem; }
 .contact-form input, .contact-form textarea { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--glass-strong); color: var(--text); font: 1rem var(--font); }
 .contact-form textarea { resize: vertical; }
 .contact-form input:focus, .contact-form textarea:focus { outline: 2px solid transparent; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
-.contact-form button { justify-self: start; }
 .hp { position: absolute; left: -9999px; }
 .contact-form .optional { color: var(--muted); font-weight: 400; }
 .form-status { min-height: 1.5em; margin: 0; font-size: .95rem; }

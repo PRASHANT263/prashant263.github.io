@@ -309,3 +309,17 @@ func TestCallToActionMergedIntoContact(t *testing.T) {
 		`<form class="contact-form"`,
 	)
 }
+
+func TestContactFormFieldsInGrid(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out),
+		`<label class="f-name">Name`,
+		`<label class="f-phone"><span>Contact number`,
+		`<label class="f-email">Email`,
+		`<label class="f-message">Message`,
+		`<div class="form-actions"><button class="btn primary" type="submit">Send message</button>`,
+	)
+}
