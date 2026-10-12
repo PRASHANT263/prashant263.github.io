@@ -14,6 +14,7 @@ type Profile struct {
 	Name          string   `yaml:"name"`
 	Title         string   `yaml:"title"`
 	Pitch         string   `yaml:"pitch"`
+	Greetings     []string `yaml:"greetings"` // optional; the hero types each one in turn
 	About         []string `yaml:"about"`
 	Location      string   `yaml:"location"`
 	Email         string   `yaml:"email"`

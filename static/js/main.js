@@ -25,6 +25,33 @@
     navLinks.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
   }
 
+  // Hero greeting: type and delete each greeting in turn (Hi → नमस्ते → ನಮಸ್ಕಾರ).
+  // Splits by grapheme so Devanagari and Kannada letters never break apart.
+  const greet = document.querySelector(".greet[data-greetings]");
+  const words = greet ? greet.dataset.greetings.split("|").filter(Boolean) : [];
+  if (words.length > 1 && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const graphemes = (s) => ("Segmenter" in Intl)
+      ? Array.from(new Intl.Segmenter().segment(s), (g) => g.segment)
+      : Array.from(s);
+    const letters = words.map(graphemes);
+    let word = 0, shown = letters[0].length, deleting = true;
+    const tick = () => {
+      shown += deleting ? -1 : 1;
+      greet.textContent = letters[word].slice(0, shown).join("");
+      let delay = deleting ? 70 : 140;
+      if (deleting && shown === 0) {
+        deleting = false;
+        word = (word + 1) % letters.length;
+        delay = 350;
+      } else if (!deleting && shown === letters[word].length) {
+        deleting = true;
+        delay = 1800;
+      }
+      setTimeout(tick, delay);
+    };
+    setTimeout(tick, 1800);
+  }
+
   // Reveal sections as they scroll into view.
   root.classList.add("reveal-ready");
   const reveals = document.querySelectorAll(".reveal");

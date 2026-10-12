@@ -111,6 +111,28 @@ func TestContactFormNoKey(t *testing.T) {
 	mustContain(t, body, "The contact form is coming soon.")
 }
 
+func TestHeroGreetings(t *testing.T) {
+	r := realRenderer(t)
+	s := fixtureSite()
+
+	out, err := r.Home(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out), `<p class="eyebrow mono">Hi, I'm</p>`)
+
+	s.Profile.Greetings = []string{"Hi", "नमस्ते", "ನಮಸ್ಕಾರ"}
+	out, err = r.Home(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out),
+		`<span class="sr-only">Hi, I'm</span>`,
+		`data-greetings="Hi|नमस्ते|ನಮಸ್ಕಾರ"`,
+		`<span class="greet" data-greetings="Hi|नमस्ते|ನಮಸ್ಕಾರ">Hi</span><span class="cursor"></span>, I'm`,
+	)
+}
+
 func TestRealTemplatesGolden(t *testing.T) {
 	for name, got := range renderAll(t) {
 		path := filepath.Join("testdata", "golden", name)
