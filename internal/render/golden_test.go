@@ -189,3 +189,17 @@ func TestAboutPillars(t *testing.T) {
 		`<polyline points="16 18 22 12 16 6"/>`, // the "code" icon
 	)
 }
+
+func TestResumeDownloadNotRepeated(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	// Hero button + Resume section button only; the CTA band and footer don't repeat it.
+	if n := strings.Count(string(out), `href="/resume.pdf" download`); n != 2 {
+		t.Errorf("resume download links = %d, want 2", n)
+	}
+	if strings.Contains(string(out), "Resume (PDF)") {
+		t.Error("footer should not repeat the resume link")
+	}
+}

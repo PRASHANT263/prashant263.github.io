@@ -25,7 +25,6 @@
     <div>
       <h4>Resources</h4>
       <ul>
-        <li><a href="{{asset .Resume}}" target="_blank" rel="noopener">Resume (PDF)</a></li>
         {{range .Socials}}{{if not (hasPrefix .URL "mailto:")}}<li><a href="{{.URL}}" target="_blank" rel="noopener">{{.Label}}</a></li>{{end}}{{end}}
       </ul>
     </div>

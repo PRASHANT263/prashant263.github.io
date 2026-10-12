@@ -144,7 +144,7 @@
   </div>
   <div class="actions">
     <a class="btn primary" href="mailto:{{.Email}}">Email me {{template "icon-mail"}}</a>
-    <a class="btn" href="{{asset .Resume}}" download>Download resume {{template "icon-download"}}</a>
+    <a class="btn" href="#contact">Send a message {{template "icon-arrow"}}</a>
   </div>
 </section>
 {{end}}
@@ -156,7 +156,7 @@
   <div class="glass card contact">
     <div>
       <h3>Let's talk</h3>
-      <p class="muted">Open to senior backend roles and good engineering conversations. Send a message or email me directly.</p>
+      <p class="muted">Open to backend roles and good engineering conversations. Send a message or email me directly.</p>
       <p><a class="link" href="mailto:{{.Email}}">{{template "icon-mail"}} {{.Email}}</a></p>
     </div>
     {{if .Web3FormsKey}}<form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-contact>
