@@ -22,11 +22,8 @@ about:                          # three cards; icon: code | target | users
   - title: How I work
     icon: users
     text: "Production reliability and clean architecture first. I mentor five engineers and led my team's adoption of AI-assisted development with Cursor and Claude Code."
-facts:
-  - { value: "4+ yrs", label: "Backend engineering" }
-  - { value: "4", label: "NBFC partners integrated" }
-  - { value: "10", label: "Languages in loan documents" }
-  - { value: "−30%", label: "Developer toil" }
+facts:                          # shown as a badge next to your title
+  - { value: "4+ years", label: "of backend experience" }
 socials:
   - { label: GitHub, icon: github, url: "https://github.com/prashant263" }
   - { label: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/" }   # replace with your profile URL

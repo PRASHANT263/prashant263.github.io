@@ -203,3 +203,16 @@ func TestResumeDownloadNotRepeated(t *testing.T) {
 		t.Error("footer should not repeat the resume link")
 	}
 }
+
+func TestFactsRenderAsHeroBadge(t *testing.T) {
+	s := fixtureSite()
+	s.Profile.Facts = []content.Fact{{Value: "4+ years", Label: "of backend experience"}}
+	out, err := realRenderer(t).Home(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out), `<span class="hero-badge"><strong>4&#43; years</strong> of backend experience</span>`)
+	if strings.Contains(string(out), `<ul class="facts">`) {
+		t.Error("stat cards should no longer render")
+	}
+}

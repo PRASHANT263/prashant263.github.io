@@ -7,7 +7,7 @@
       {{with .Status}}<p class="status-pill"><span class="status-dot" aria-hidden="true"></span>{{.}}</p>{{end}}
       <p class="eyebrow mono">{{with .Greetings}}<span class="sr-only">{{index . 0}}, I'm</span><span aria-hidden="true"><span class="greet" data-greetings="{{join . "|"}}">{{index . 0}}</span><span class="cursor"></span>, I'm</span>{{else}}Hi, I'm{{end}}</p>
       <h1>{{.Name}}</h1>
-      <p class="role">{{.Title}}</p>
+      <p class="role">{{.Title}}{{range .Facts}} <span class="hero-badge"><strong>{{.Value}}</strong> {{.Label}}</span>{{end}}</p>
       <p class="pitch">{{.Pitch}}</p>
       <div class="actions">
         <a class="btn primary" href="#work">View work {{template "icon-arrow"}}</a>
@@ -15,7 +15,6 @@
       </div>
       {{template "socials" .Socials}}
     </div>
-    {{with .Facts}}<ul class="facts">{{range .}}<li><strong>{{.Value}}</strong><span>{{.Label}}</span></li>{{end}}</ul>{{end}}
   </div>
   <div id="about" class="about">
     <h2 class="about-title mono">About me</h2>
