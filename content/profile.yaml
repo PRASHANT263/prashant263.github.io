@@ -8,7 +8,7 @@ location: Bengaluru, India
 email: prashantab8505@gmail.com
 site_url: https://prashant263.github.io
 avatar: img/avatar.svg         # round "P" left of your name; delete the line to hide it
-photo: img/profile.svg          # portrait 4:5 works best (e.g. 800x1000); change to img/profile.jpg once added
+photo: img/profile.jpeg         # your photo in the rounded frame on the right; portrait 4:5 works best
 resume: resume.pdf
 resume_preview: img/resume-preview.png
 resume_updated: 2026-08-31

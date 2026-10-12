@@ -2,7 +2,7 @@ name: Test Person
 title: Engineer
 pitch: Testing the build.
 email: test@example.com
-photo: img/profile.svg
+photo: img/profile.jpeg
 resume: resume.pdf
 site_url: https://test.example.com
 about:
