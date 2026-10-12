@@ -254,3 +254,11 @@ func TestEmailAddressShownOnce(t *testing.T) {
 		t.Errorf("email address shown as text %d times, want 1 (Contact only)", n)
 	}
 }
+
+func TestFooterLocationHasPinIcon(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out), `<span class="location">`, `<circle cx="12" cy="10" r="3"/></svg> Earth</span>`)
+}
