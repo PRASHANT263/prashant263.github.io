@@ -161,6 +161,8 @@ func TestSplitFrontMatter(t *testing.T) {
 		{"empty front", "---\n---\nbody", "", "body", false},
 		{"no opening", "body", "", "", true},
 		{"unclosed", "---\na: 1\nbody", "", "", true},
+		{"eof no newline", "---\na: 1\n---", "a: 1\n", "", false},
+		{"empty front eof", "---\n---", "", "", false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -172,5 +174,26 @@ func TestSplitFrontMatter(t *testing.T) {
 				t.Errorf("front=%q body=%q", front, body)
 			}
 		})
+	}
+}
+
+func TestLoadBadSlugSkipsFileAndValidateReports(t *testing.T) {
+	fsys := minimalFS()
+	fsys["blog.yaml"] = &fstest.MapFile{Data: []byte(`
+- {title: Bad, date: 2026-01-01, slug: "Bad Slug"}
+- {title: Traversal, date: 2026-01-02, slug: "../profile"}
+`)}
+	s, err := Load(fsys)
+	if err != nil {
+		t.Fatalf("Load should succeed for bad slug (no file read attempted): %v", err)
+	}
+	err = Validate(s, testStatic)
+	if err == nil {
+		t.Fatal("Validate should report slug errors")
+	}
+	for _, want := range []string{"[0].slug:", "must be lowercase"} {
+		if !strings.Contains(err.Error(), want) {
+			t.Errorf("error %q missing %q", err, want)
+		}
 	}
 }

@@ -51,6 +51,7 @@ func TestValidateProblems(t *testing.T) {
 		want   string
 	}{
 		{"missing name", func(s *Site) { s.Profile.Name = "" }, "profile.yaml: name: is required"},
+		{"missing email", func(s *Site) { s.Profile.Email = "" }, "profile.yaml: email: is required"},
 		{"relative site url", func(s *Site) { s.Profile.SiteURL = "ada.example.com" }, "profile.yaml: site_url:"},
 		{"bad email", func(s *Site) { s.Profile.Email = "ada" }, "profile.yaml: email:"},
 		{"missing photo file", func(s *Site) { s.Profile.Photo = "img/none.jpg" }, "static/img/none.jpg does not exist"},

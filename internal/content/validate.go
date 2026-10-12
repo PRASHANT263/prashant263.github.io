@@ -67,7 +67,8 @@ func (p *problems) profile(pr Profile, static fs.FS) {
 	p.required(f, "resume", pr.Resume)
 	p.required(f, "site_url", pr.SiteURL)
 	p.absURL(f, "site_url", pr.SiteURL)
-	if !strings.Contains(pr.Email, "@") {
+	p.required(f, "email", pr.Email)
+	if pr.Email != "" && !strings.Contains(pr.Email, "@") {
 		p.add(f, "email", fmt.Sprintf("%q is not an email address", pr.Email))
 	}
 	p.staticFile(static, f, "photo", pr.Photo)

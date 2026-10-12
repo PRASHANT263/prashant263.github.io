@@ -73,7 +73,7 @@ func decodeStrict(data []byte, out any) error {
 
 func loadPosts(fsys fs.FS, entries []BlogEntry) error {
 	for i := range entries {
-		if entries[i].Slug == "" {
+		if entries[i].Slug == "" || !slugPattern.MatchString(entries[i].Slug) {
 			continue
 		}
 		data, err := fs.ReadFile(fsys, path.Join("posts", entries[i].Slug+".md"))
