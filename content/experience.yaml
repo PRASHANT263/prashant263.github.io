@@ -1,0 +1,29 @@
+- name: KreditBee
+  location: Bengaluru
+  roles:
+    - title: Senior Software Engineer
+      start: Mar 2026
+      highlights: ["DDD migration", "Mentoring 5 engineers", "AI-assisted development"]
+      bullets:
+        - Led the migration of lending systems from a tightly coupled monolith to a Domain-Driven Design model, introducing dedicated domain, service and gateway layers to establish clear service boundaries and improve maintainability and feature delivery.
+        - Mentoring 5 engineers through code reviews, production debugging and fund-flow design discussions, reinforcing engineering best practices and improving code quality.
+        - Spearheaded team-wide adoption of AI-assisted development tools, including Cursor and Claude Code, to accelerate implementation and reduce developer toil.
+        - Drove architectural improvements across critical lending workflows supporting multiple lending products and partner integrations, improving maintainability and production reliability.
+    - title: Software Engineer
+      start: Dec 2022
+      end: Mar 2026
+      highlights: ["+20% co-lending volume", "4 NBFC partners", "10-language documents", "−30% developer toil"]
+      bullets:
+        - Increased co-lending loan volume by 20% through end-to-end integration of 4 NBFC partners (Tata Capital, OFL, ABCL and IFMR), expanding the platform's lending distribution network.
+        - Designed and built a scalable, low-latency Loan Document Generation service using HTML templates and a headless Chrome PDF pipeline, supporting RBI-compliant loan agreements across 10 languages.
+        - Designed and shipped the Multi-Lender Display feature, owning the server-side business logic that lets users compare and select their preferred lender within a single loan journey.
+        - Reduced developer toil by 30% through backend automation, streamlined API workflows and targeted system optimisations.
+        - Handled production debugging and critical fund-flow issues, identifying root causes across backend services and improving reliability of lending workflows.
+        - Collaborated with product, finance, compliance and operations teams to ship RBI-compliant fintech features and circulars on schedule.
+    - title: Software Development Engineer Intern
+      start: Apr 2022
+      end: Nov 2022
+      highlights: ["Go · MySQL · AWS", "Fund-flow observability"]
+      bullets:
+        - Ramped up on the production backend stack (Go, MySQL and AWS) alongside ReactJS, then independently owned fund-related bug fixes and product tasks.
+        - Shipped lender website link integrations for all co-lending partners, and added fund assignment events that surface fund rejections and the specific rule that failed, improving debugging of fund-flow issues.

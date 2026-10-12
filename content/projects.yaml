@@ -1,0 +1,3 @@
+- title: This portfolio
+  description: A custom static site generator in Go. Content lives in YAML and Markdown, is validated at build time, rendered with html/template and goldmark, link-checked, and deployed to GitHub Pages by GitHub Actions.
+  tech: [Go, html/template, goldmark, CSS, GitHub Actions]

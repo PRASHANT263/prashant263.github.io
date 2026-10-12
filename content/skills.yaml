@@ -1,0 +1,6 @@
+- { name: Languages, items: [Go, Python, SQL] }
+- { name: Concurrency & Systems, items: [Goroutines, Channels, Context, Synchronization, Gin, REST APIs] }
+- { name: Backend & Architecture, items: [Microservices, Domain-Driven Design, Distributed Systems, Event-Driven Architecture, API Design, Design Patterns] }
+- { name: Cloud & DevOps, items: [AWS EC2, Lambda, API Gateway, S3, SNS/SQS, CloudWatch, CI/CD] }
+- { name: Data & Caching, items: [MySQL, Redis] }
+- { name: Observability & Tools, items: [Grafana, Monitoring, Git/GitHub, Postman, Cursor, Claude Code] }

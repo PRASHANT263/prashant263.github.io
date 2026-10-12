@@ -1,0 +1,9 @@
+# Add a blog link: copy the example below, remove the leading "# ", fill it in, save.
+# Newest entries appear first automatically.
+#
+# - title: "How we migrated a lending monolith to DDD"
+#   date: 2026-10-01                      # YYYY-MM-DD
+#   url: https://medium.com/@you/your-post
+#   source: Medium                        # badge text: Medium, Dev.to, Hashnode, LinkedIn...
+#   tags: [go, ddd]
+#   summary: "One or two sentences about the post."
