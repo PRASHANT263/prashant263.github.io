@@ -12,7 +12,9 @@ import (
 )
 
 // linkAttr matches href or src attributes with double-quoted values.
-// Word-boundary \b prevents matching data-href or nohref.
+// \b prevents matches like nohref (where the attribute name follows a word
+// character) but does not exclude data-src or data-href, because the hyphen
+// before the name is a non-word character and still triggers the boundary.
 // Limits: double-quoted attributes only; srcset and absolute same-site URLs
 // are not checked.
 var linkAttr = regexp.MustCompile(`\b(?:href|src)="([^"]*)"`)
@@ -51,6 +53,9 @@ func CheckLinks(dir string) error {
 		case ".css":
 			for _, m := range cssURL.FindAllSubmatch(data, -1) {
 				link := string(m[1])
+				if strings.HasPrefix(link, "//") {
+					continue
+				}
 				if !resolves(dir, link) {
 					broken = append(broken, fmt.Errorf("%s: broken link %s", rel, link))
 				}

@@ -99,6 +99,29 @@ func TestCheckOutDir(t *testing.T) {
 	}
 }
 
+// TestWithin verifies the within helper for edge cases around dotdot paths.
+func TestWithin(t *testing.T) {
+	cases := []struct {
+		parent, child string
+		want          bool
+	}{
+		{"/a", "/a", true},           // equal (rel == ".")
+		{"/a", "/a/b", true},         // nested
+		{"/a", "/a/b/c", true},       // deeply nested
+		{"/a", "/b", false},          // sibling (rel == "../b")
+		{"/a", "/", false},           // ancestor (rel == "..")
+		{"/a/b", "/a", false},        // parent (rel == "..")
+		{"/a", "/a/..foo", true},     // file whose name starts with ".." is inside
+		{"/a", "/a/..foo/bar", true}, // nested under such a file
+	}
+	for _, tc := range cases {
+		got := within(tc.parent, tc.child)
+		if got != tc.want {
+			t.Errorf("within(%q, %q) = %v, want %v", tc.parent, tc.child, got, tc.want)
+		}
+	}
+}
+
 // TestBuildRenderErrorKeepsPreviousOutput confirms that a template
 // execution error does not wipe the previous OutDir contents.
 func TestBuildRenderErrorKeepsPreviousOutput(t *testing.T) {

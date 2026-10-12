@@ -69,12 +69,10 @@ func renderAll(r *render.Renderer, s *content.Site) ([]renderedPage, error) {
 	}
 	urls := []string{"/", "/blog/"}
 	for _, cs := range s.CaseStudies {
-		cs := cs
 		specs = append(specs, spec{"case-studies/" + cs.Slug + "/index.html", func() ([]byte, error) { return r.CaseStudy(s, cs) }})
 		urls = append(urls, "/case-studies/"+cs.Slug+"/")
 	}
 	for _, e := range s.Blog {
-		e := e
 		if e.IsExternal() {
 			continue
 		}
@@ -176,11 +174,15 @@ func checkOutDir(cfg Config) error {
 }
 
 // within reports whether child is equal to or nested inside parent.
-// It uses filepath.Rel: the result is "." (equal) or doesn't start with "..".
+// A child is outside only when filepath.Rel returns ".." (the parent itself is
+// the child's parent) or a path that starts with "../" (a true ancestor
+// escape). A relative path like "..foo" names a file whose name begins with
+// ".." but lives inside the parent, so it counts as inside.
 func within(parent, child string) bool {
 	rel, err := filepath.Rel(parent, child)
 	if err != nil {
 		return false
 	}
-	return rel == "." || !strings.HasPrefix(rel, "..")
+	sep := string(filepath.Separator)
+	return rel != ".." && !strings.HasPrefix(rel, ".."+sep)
 }

@@ -26,10 +26,12 @@ func TestCheckLinks(t *testing.T) {
 <a href="//cdn.example.com/x.js">protocol-relative</a>`)
 	writeTestFile(t, filepath.Join(dir, "blog", "index.html"), `<a href="/">home</a>`)
 	writeTestFile(t, filepath.Join(dir, "css", "a.css"), ``)
-	// CSS file: one resolvable font, one missing font.
+	// CSS file: one resolvable font, one missing font, and one protocol-relative URL.
+	// The protocol-relative url(//cdn.example.com/x.woff2) must NOT be reported.
 	writeTestFile(t, filepath.Join(dir, "css", "style.css"),
 		`@font-face { src: url('/fonts/existing.woff2'); }
-@font-face { src: url('/fonts/missing.woff2'); }`)
+@font-face { src: url('/fonts/missing.woff2'); }
+@font-face { src: url(//cdn.example.com/x.woff2); }`)
 	writeTestFile(t, filepath.Join(dir, "fonts", "existing.woff2"), ``)
 
 	err := CheckLinks(dir)
