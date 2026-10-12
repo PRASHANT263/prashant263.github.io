@@ -12,10 +12,16 @@ resume: resume.pdf
 resume_preview: img/resume-preview.png
 resume_updated: 2026-08-31
 web3forms_key: ""               # free key from https://web3forms.com (enables the contact form)
-about:
-  - "I'm a Senior Software Engineer at KreditBee with 4+ years of experience building and scaling the backend systems behind high-growth digital lending."
-  - "My work sits where business, regulation and engineering meet: integrating NBFC co-lending partners, generating RBI-compliant loan documents, and moving a tightly coupled monolith to a Domain-Driven Design architecture with clear service boundaries."
-  - "I care about production reliability, clean architecture and helping engineers grow. I mentor five engineers through code reviews, production debugging and design discussions, and led my team's adoption of AI-assisted development with Cursor and Claude Code."
+about:                          # three cards; icon: code | target | users
+  - title: What I do
+    icon: code
+    text: "I build and scale the backend systems behind high-growth digital lending at KreditBee: 4+ years in Go, microservices and AWS."
+  - title: Where I focus
+    icon: target
+    text: "Integrating NBFC co-lending partners, generating RBI-compliant loan documents in 10 languages, and moving a tightly coupled monolith to Domain-Driven Design."
+  - title: How I work
+    icon: users
+    text: "Production reliability and clean architecture first. I mentor five engineers and led my team's adoption of AI-assisted development with Cursor and Claude Code."
 facts:
   - { value: "4+ yrs", label: "Backend engineering" }
   - { value: "3×", label: "Star Performer award" }

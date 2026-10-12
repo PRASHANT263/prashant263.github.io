@@ -17,9 +17,17 @@
     </div>
     {{with .Facts}}<ul class="facts">{{range .}}<li><strong>{{.Value}}</strong><span>{{.Label}}</span></li>{{end}}</ul>{{end}}
   </div>
-  <div id="about" class="about glass card">
+  <div id="about" class="about">
     <h2 class="about-title mono">About me</h2>
-    <div class="about-text">{{range .About}}<p>{{.}}</p>{{end}}</div>
+    <div class="about-grid">
+      {{range .About}}
+      <article class="glass card about-card">
+        <span class="about-icon">{{if eq .Icon "code"}}{{template "icon-code"}}{{else if eq .Icon "target"}}{{template "icon-target"}}{{else if eq .Icon "users"}}{{template "icon-users"}}{{end}}</span>
+        <h3>{{.Title}}</h3>
+        <p>{{.Text}}</p>
+      </article>
+      {{end}}
+    </div>
   </div>
 </section>
 {{end}}

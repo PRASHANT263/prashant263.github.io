@@ -12,23 +12,23 @@ type Site struct {
 }
 
 type Profile struct {
-	Name          string   `yaml:"name"`
-	Title         string   `yaml:"title"`
-	Pitch         string   `yaml:"pitch"`
-	Greetings     []string `yaml:"greetings"` // optional; the hero types each one in turn
-	Status        string   `yaml:"status"`    // optional pill above the name, e.g. "Currently building at KreditBee"
-	Expertise     []string `yaml:"expertise"` // optional footer list
-	About         []string `yaml:"about"`
-	Location      string   `yaml:"location"`
-	Email         string   `yaml:"email"`
-	Photo         string   `yaml:"photo"`          // path under static/
-	Resume        string   `yaml:"resume"`         // path under static/
-	ResumePreview string   `yaml:"resume_preview"` // optional, path under static/
-	ResumeUpdated Date     `yaml:"resume_updated"`
-	Web3FormsKey  string   `yaml:"web3forms_key"`
-	SiteURL       string   `yaml:"site_url"`
-	Facts         []Fact   `yaml:"facts"`
-	Socials       []Social `yaml:"socials"`
+	Name          string       `yaml:"name"`
+	Title         string       `yaml:"title"`
+	Pitch         string       `yaml:"pitch"`
+	Greetings     []string     `yaml:"greetings"` // optional; the hero types each one in turn
+	Status        string       `yaml:"status"`    // optional pill above the name, e.g. "Currently building at KreditBee"
+	Expertise     []string     `yaml:"expertise"` // optional footer list
+	About         []AboutPoint `yaml:"about"`
+	Location      string       `yaml:"location"`
+	Email         string       `yaml:"email"`
+	Photo         string       `yaml:"photo"`          // path under static/
+	Resume        string       `yaml:"resume"`         // path under static/
+	ResumePreview string       `yaml:"resume_preview"` // optional, path under static/
+	ResumeUpdated Date         `yaml:"resume_updated"`
+	Web3FormsKey  string       `yaml:"web3forms_key"`
+	SiteURL       string       `yaml:"site_url"`
+	Facts         []Fact       `yaml:"facts"`
+	Socials       []Social     `yaml:"socials"`
 }
 
 type Fact struct {
@@ -109,4 +109,11 @@ type Recognition struct {
 	When   string `yaml:"when"` // free text, e.g. "Nov 2023 · Aug 2024 · May 2025"
 	Detail string `yaml:"detail"`
 	Kind   string `yaml:"kind"` // award | milestone | education; picks the icon
+}
+
+// AboutPoint is one titled card in the About section.
+type AboutPoint struct {
+	Title string `yaml:"title"`
+	Icon  string `yaml:"icon"` // code | target | users; optional
+	Text  string `yaml:"text"`
 }

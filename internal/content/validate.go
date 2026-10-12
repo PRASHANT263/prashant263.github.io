@@ -75,6 +75,13 @@ func (p *problems) profile(pr Profile, static fs.FS) {
 	p.staticFile(static, f, "photo", pr.Photo)
 	p.staticFile(static, f, "resume", pr.Resume)
 	p.staticFile(static, f, "resume_preview", pr.ResumePreview)
+	for i, a := range pr.About {
+		p.required(f, fmt.Sprintf("about[%d].title", i), a.Title)
+		p.required(f, fmt.Sprintf("about[%d].text", i), a.Text)
+		if !aboutIcons[a.Icon] {
+			p.add(f, fmt.Sprintf("about[%d].icon", i), fmt.Sprintf("%q must be code, target or users", a.Icon))
+		}
+	}
 	for i, s := range pr.Socials {
 		field := fmt.Sprintf("socials[%d].url", i)
 		p.required(f, field, s.URL)
@@ -177,3 +184,5 @@ func (p *problems) recognition(items []Recognition) {
 		}
 	}
 }
+
+var aboutIcons = map[string]bool{"": true, "code": true, "target": true, "users": true}

@@ -130,11 +130,22 @@ main { width: var(--frame); margin: 0 auto; }
 .socials a:hover { transform: translateY(-2px); color: var(--accent-2); }
 
 /* ---------- About ---------- */
-.about { padding: clamp(20px, 2.5vw, 32px); }
 .about-title { font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); margin: 0 0 12px; }
-.about-text { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 12px clamp(24px, 3vw, 48px); }
-.about-text p { margin: 0; color: var(--muted); }
-.about-text p:last-child { margin-bottom: 0; }
+.about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; }
+.about-card { display: flex; flex-direction: column; gap: 10px; transition: transform .25s, border-color .25s; }
+.about-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
+.about-card h3 { margin: 4px 0 0; font-size: 1.15rem; }
+.about-card p { margin: 0; line-height: 1.6; }
+.about-icon { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--chip-bg); color: var(--chip-text); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); font-size: 1.25rem; }
+/* Shorter laptop screens (e.g. 1366x768): tighten spacing so the whole home block fits. */
+@media (min-width: 768px) and (max-height: 820px) {
+  .home { padding-top: 12px; gap: 16px; }
+  .status-pill { margin-bottom: 8px; }
+  .hero .actions { margin: 14px 0; }
+  .about-title { margin-bottom: 8px; }
+  .about-card { padding: 16px 20px; gap: 6px; }
+  .about-icon { width: 36px; height: 36px; font-size: 1.05rem; }
+}
 .facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: clamp(300px, 26vw, 400px); }
 @media (max-width: 1100px) { .hero { grid-template-columns: auto 1fr; } .hero .facts { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); width: 100%; } }
 .facts li { padding: 16px; border-radius: 12px; background: var(--glass-strong); border: 1px solid var(--border); }

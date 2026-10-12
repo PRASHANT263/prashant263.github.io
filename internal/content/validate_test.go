@@ -66,6 +66,8 @@ func TestValidateProblems(t *testing.T) {
 		{"blog neither", func(s *Site) { s.Blog[0].URL = "" }, "blog.yaml: [0].url: set either url"},
 		{"blog bad slug", func(s *Site) { s.Blog[1].Slug = "Bad Slug" }, "blog.yaml: [1].slug:"},
 		{"blog duplicate slug", func(s *Site) { s.Blog[0].URL = ""; s.Blog[0].Slug = "local" }, "blog.yaml: [1].slug: duplicate"},
+		{"about missing text", func(s *Site) { s.Profile.About = []AboutPoint{{Title: "What I do"}} }, "profile.yaml: about[0].text: is required"},
+		{"about bad icon", func(s *Site) { s.Profile.About = []AboutPoint{{Title: "T", Text: "x", Icon: "rocket"}} }, "profile.yaml: about[0].icon:"},
 		{"recognition missing when", func(s *Site) { s.Recognition[0].When = "" }, "recognition.yaml: [0].when: is required"},
 		{"recognition bad kind", func(s *Site) { s.Recognition[0].Kind = "trophy" }, "recognition.yaml: [0].kind:"},
 		{"case study missing summary", func(s *Site) { s.CaseStudies[0].Summary = "" }, "case-studies/migration.md: summary: is required"},

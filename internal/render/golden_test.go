@@ -22,7 +22,7 @@ func fixtureSite() *content.Site {
 	return &content.Site{
 		Profile: content.Profile{
 			Name: "Ada", Title: "Backend Engineer", Pitch: "Builds reliable systems.",
-			About: []string{"Hello."}, Location: "Earth", Email: "ada@example.com",
+			About: []content.AboutPoint{{Title: "What I do", Icon: "code", Text: "Hello."}}, Location: "Earth", Email: "ada@example.com",
 			Photo: "img/ada.jpg", Resume: "resume.pdf", ResumePreview: "img/resume.png",
 			ResumeUpdated: d("2026-01-02"), Web3FormsKey: "test-key", SiteURL: "https://ada.example.com",
 			Status: "Currently building at Acme", Expertise: []string{"Go", "DDD"},
@@ -174,5 +174,18 @@ func TestHomeSectionsFromSashwatIdeas(t *testing.T) {
 		`class="cta-band`, `href="mailto:ada@example.com"`,
 		// richer footer
 		`<h4>Quick links</h4>`, `<h4>Expertise</h4>`, `<li>DDD</li>`, `<h4>Resources</h4>`,
+	)
+}
+
+func TestAboutPillars(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out),
+		`<article class="glass card about-card">`,
+		`<h3>What I do</h3>`,
+		`<p>Hello.</p>`,
+		`<polyline points="16 18 22 12 16 6"/>`, // the "code" icon
 	)
 }

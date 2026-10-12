@@ -5,6 +5,7 @@ email: test@example.com
 photo: img/profile.svg
 resume: resume.pdf
 site_url: https://test.example.com
-about: ["About text."]
+about:
+  - { title: What I do, icon: code, text: About text. }
 socials:
   - { label: Email, icon: email, url: "mailto:test@example.com" }
