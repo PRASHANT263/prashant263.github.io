@@ -24,9 +24,9 @@ about:                          # three cards; icon: code | target | users
     text: "Production reliability and clean architecture first. I mentor five engineers and led my team's adoption of AI-assisted development with Cursor and Claude Code."
 facts:
   - { value: "4+ yrs", label: "Backend engineering" }
-  - { value: "3×", label: "Star Performer award" }
-  - { value: "+20%", label: "Co-lending loan volume" }
-  - { value: "5", label: "Engineers mentored" }
+  - { value: "4", label: "NBFC partners integrated" }
+  - { value: "10", label: "Languages in loan documents" }
+  - { value: "−30%", label: "Developer toil" }
 socials:
   - { label: GitHub, icon: github, url: "https://github.com/prashant263" }
   - { label: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/" }   # replace with your profile URL
