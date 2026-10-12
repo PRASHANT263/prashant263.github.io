@@ -1,0 +1,1 @@
+{{define "main"}}<h1>{{.Site.Profile.Name}}</h1>{{range take 1 .Site.Blog}}<a href="{{.Href}}">{{.Title}}</a>{{end}}{{end}}
