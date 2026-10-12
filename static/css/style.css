@@ -71,8 +71,8 @@ p { margin: 0 0 1em; }
 :root { --page: 1680px; --gutter: clamp(16px, 4vw, 72px); --frame: min(var(--page), calc(100% - 2 * var(--gutter))); }
 main { width: var(--frame); margin: 0 auto; }
 .section { padding: 56px 0; }
-.section-eyebrow { margin: 0 0 6px; color: var(--accent-2); font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
-.section-title { font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin-bottom: 28px; }
+.section-eyebrow { margin: 0 0 8px; color: var(--accent-2); font-size: 1rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.section-title { font-size: clamp(2.1rem, 4vw, 3.1rem); margin-bottom: 28px; }
 .section-title::after { content: ""; display: block; width: 48px; height: 3px; margin-top: 10px; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
 .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
 .grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
@@ -121,7 +121,7 @@ main { width: var(--frame); margin: 0 auto; }
 .hero-photo { position: relative; justify-self: end; height: clamp(280px, 46vh, 480px); aspect-ratio: 4 / 5; padding: 5px; border-radius: 32px; background: conic-gradient(from var(--angle), var(--blob-1), var(--blob-2), var(--blob-3), var(--blob-1)); animation: spin 8s linear infinite; }
 .hero-photo::after { content: ""; position: absolute; inset: -18px; z-index: -1; border-radius: 44px; background: linear-gradient(135deg, var(--blob-1), var(--blob-3)); filter: blur(36px); opacity: .45; }
 .hero-photo img { display: block; width: 100%; height: 100%; border-radius: 28px; object-fit: cover; border: 4px solid var(--bg); }
-.eyebrow { color: var(--accent-2); margin: 0 0 4px; font-size: .95rem; }
+.eyebrow { color: var(--accent-2); margin: 0 0 6px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); }
 .status-pill { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 5px 14px 5px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--glass-strong); font-size: .85rem; font-weight: 500; }
 .status-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
 .status-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #22c55e; animation: ping 1.8s cubic-bezier(0, 0, .2, 1) infinite; }
@@ -137,11 +137,11 @@ main { width: var(--frame); margin: 0 auto; }
 .socials a:hover { transform: translateY(-2px); color: var(--accent-2); }
 
 /* ---------- About ---------- */
-.about-title { font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); margin: 0 0 12px; }
+.about-title { font-size: 1.05rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); margin: 0 0 12px; }
 .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 20px; }
 .about-card { display: flex; flex-direction: column; gap: 10px; transition: transform .25s, border-color .25s; }
 .about-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
-.about-card h3 { margin: 4px 0 0; font-size: 1.15rem; }
+.about-card h3 { margin: 4px 0 0; font-size: 1.3rem; }
 .about-card p { margin: 0; line-height: 1.6; }
 .about-icon { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--chip-bg); color: var(--chip-text); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); font-size: 1.25rem; }
 /* Shorter laptop screens (e.g. 1366x768): tighten spacing so the whole home block fits. */
@@ -150,19 +150,23 @@ main { width: var(--frame); margin: 0 auto; }
   .status-pill { margin-bottom: 8px; }
   .hero .actions { margin: 14px 0; }
   .about-title { margin-bottom: 8px; }
-  .about-card { padding: 16px 20px; gap: 6px; }
+  .about-card { padding: 14px 20px; gap: 4px; }
+  .about-card h3 { font-size: 1.15rem; }
+  .about-card p { line-height: 1.5; }
+  .home { gap: 12px; }
+  .hero .socials a { width: 36px; height: 36px; }
   .about-icon { width: 36px; height: 36px; font-size: 1.05rem; }
 }
 .hero-badge { display: inline-flex; align-items: baseline; gap: 6px; padding: 4px 12px; border-radius: 999px; vertical-align: .15em; background: var(--chip-bg); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); color: var(--chip-text); font-size: .85rem; font-weight: 500; white-space: nowrap; }
 .hero-badge strong { font-weight: 700; }
 
 /* ---------- Experience timeline ---------- */
-.company-name { font-size: 1.3rem; margin-bottom: 16px; }
+.company-name { font-size: 1.5rem; margin-bottom: 16px; }
 .timeline { list-style: none; margin: 0; padding: 0 0 0 28px; border-left: 2px solid var(--border); display: grid; gap: 20px; }
 .role-card { position: relative; }
 .role-card::before { content: ""; position: absolute; left: -38px; top: 30px; width: 14px; height: 14px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 0 0 4px var(--bg); }
 .role-head { display: flex; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; align-items: baseline; }
-.role-head h4 { font-size: 1.1rem; margin: 0; }
+.role-head h4 { font-size: 1.25rem; margin: 0; }
 .role-head span { font-size: .85rem; }
 .bullets { margin: 12px 0 0; padding-left: 20px; color: var(--muted); }
 .bullets li { margin-bottom: 6px; }
@@ -173,7 +177,7 @@ main { width: var(--frame); margin: 0 auto; }
 /* ---------- Cards ---------- */
 .case-card, .blog-card, .project-card { position: relative; display: flex; flex-direction: column; text-decoration: none; transition: transform .25s, border-color .25s; }
 .case-card:hover, .blog-card:hover, .project-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
-.case-card h3, .blog-card h3, .project-card h3 { font-size: 1.15rem; }
+.case-card h3, .blog-card h3, .project-card h3 { font-size: 1.3rem; }
 .case-card p, .blog-card p, .project-card p { color: var(--muted); }
 .more { margin-top: auto; padding-top: 16px; color: var(--accent-2); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
 .blog-card .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font: .8rem var(--mono); color: var(--muted); margin-bottom: 10px; }
@@ -182,7 +186,7 @@ main { width: var(--frame); margin: 0 auto; }
 .blog-card h3 a::after { content: ""; position: absolute; inset: 0; }
 .project-card .links { display: flex; gap: 16px; margin: auto 0 0; padding-top: 16px; }
 .project-card .links a { display: inline-flex; gap: 6px; align-items: center; color: var(--accent-2); text-decoration: none; font-weight: 600; }
-.skills h3 { font-size: 1rem; margin-bottom: 4px; }
+.skills h3 { font-size: 1.15rem; margin-bottom: 4px; }
 .empty { color: var(--muted); text-align: center; }
 
 /* ---------- Resume ---------- */
@@ -191,7 +195,7 @@ main { width: var(--frame); margin: 0 auto; }
 
 /* ---------- Contact ---------- */
 .contact { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; padding: clamp(24px, 3.5vw, 48px); background: linear-gradient(135deg, color-mix(in srgb, var(--blob-1) 18%, transparent), color-mix(in srgb, var(--blob-3) 14%, transparent)), var(--glass); }
-.contact h3 { font-size: 1.4rem; }
+.contact h3 { font-size: 1.6rem; }
 /* Form fields sit in a glass panel: short fields on the left, the message box
    on the right spanning their height, so the form stays compact. */
 .contact-form { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "name message" "phone message" "email message" "actions actions"; gap: 14px 18px; align-content: start; padding: clamp(16px, 2vw, 24px); border-radius: var(--radius); border: 1px solid var(--border); background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
@@ -246,7 +250,7 @@ main { width: var(--frame); margin: 0 auto; }
 /* ---------- Footer ---------- */
 /* ---------- Recognition ---------- */
 .recog-card { display: flex; flex-direction: column; gap: 6px; }
-.recog-card h3 { margin: 6px 0 0; font-size: 1.1rem; }
+.recog-card h3 { margin: 6px 0 0; font-size: 1.25rem; }
 .recog-card .muted { margin: 4px 0 0; font-size: .92rem; }
 .recog-icon { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #4f46e5, #7c3aed 60%, #0f766e); font-size: 1.2rem; }
 .when { margin: 0; color: var(--accent-2); font-size: .82rem; }
