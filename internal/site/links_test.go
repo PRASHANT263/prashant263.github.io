@@ -26,6 +26,11 @@ func TestCheckLinks(t *testing.T) {
 <a href="//cdn.example.com/x.js">protocol-relative</a>`)
 	writeTestFile(t, filepath.Join(dir, "blog", "index.html"), `<a href="/">home</a>`)
 	writeTestFile(t, filepath.Join(dir, "css", "a.css"), ``)
+	// CSS file: one resolvable font, one missing font.
+	writeTestFile(t, filepath.Join(dir, "css", "style.css"),
+		`@font-face { src: url('/fonts/existing.woff2'); }
+@font-face { src: url('/fonts/missing.woff2'); }`)
+	writeTestFile(t, filepath.Join(dir, "fonts", "existing.woff2"), ``)
 
 	err := CheckLinks(dir)
 	if err == nil {
@@ -35,8 +40,11 @@ func TestCheckLinks(t *testing.T) {
 	if !strings.Contains(msg, "index.html: broken link /missing.png") {
 		t.Errorf("error = %q", msg)
 	}
-	if strings.Count(msg, "broken link") != 1 {
-		t.Errorf("expected exactly one broken link, got %q", msg)
+	if !strings.Contains(msg, "broken link /fonts/missing.woff2") {
+		t.Errorf("CSS broken font not reported; error = %q", msg)
+	}
+	if strings.Count(msg, "broken link") != 2 {
+		t.Errorf("expected exactly two broken links, got %q", msg)
 	}
 }
 

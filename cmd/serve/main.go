@@ -3,7 +3,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"hash/fnv"
@@ -13,6 +12,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"portfolio/internal/site"
@@ -39,22 +39,50 @@ func main() {
 	log.Fatal(http.ListenAndServe(*addr, handler(cfg.OutDir)))
 }
 
-// handler serves dir the way GitHub Pages does: directories serve index.html
-// and missing paths get 404.html with a 404 status.
+// handler serves dir mimicking GitHub Pages: directories are served via
+// index.html, directories without an index.html get a 404, and missing paths
+// get 404.html with a 404 status. Traversal and backslash paths are rejected
+// by os.DirFS.
 func handler(dir string) http.Handler {
+	fsys := os.DirFS(dir)
 	files := http.FileServer(http.Dir(dir))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Cache-Control", "no-store")
-		p := filepath.Join(dir, filepath.FromSlash(path.Clean("/"+r.URL.Path)))
-		if _, err := os.Stat(p); errors.Is(err, fs.ErrNotExist) {
-			page, _ := os.ReadFile(filepath.Join(dir, "404.html"))
-			w.Header().Set("Content-Type", "text/html; charset=utf-8")
-			w.WriteHeader(http.StatusNotFound)
-			w.Write(page)
+
+		// Derive a valid fs.FS name from the URL path.
+		// path.Clean rejects traversal; os.DirFS rejects any ".." component.
+		name := strings.TrimPrefix(path.Clean("/"+r.URL.Path), "/")
+		if name == "" {
+			name = "."
+		}
+
+		info, err := fs.Stat(fsys, name)
+		if err != nil {
+			// Any stat error (not found, traversal attempt, etc.) → 404.
+			serve404(w, dir)
 			return
+		}
+		if info.IsDir() {
+			// Only serve a directory if it has an index.html; no listings.
+			if _, err := fs.Stat(fsys, path.Join(name, "index.html")); err != nil {
+				serve404(w, dir)
+				return
+			}
 		}
 		files.ServeHTTP(w, r)
 	})
+}
+
+func serve404(w http.ResponseWriter, dir string) {
+	const fallback = "404 page not found (no 404.html; check the build log)"
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusNotFound)
+	page, err := os.ReadFile(filepath.Join(dir, "404.html"))
+	if err != nil {
+		w.Write([]byte(fallback))
+		return
+	}
+	w.Write(page)
 }
 
 // watch polls dirs and calls onChange when any file is added, removed or

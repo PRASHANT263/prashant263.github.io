@@ -11,15 +11,24 @@ import (
 	"strings"
 )
 
-var linkAttr = regexp.MustCompile(`(?:href|src)="([^"]*)"`)
+// linkAttr matches href or src attributes with double-quoted values.
+// Word-boundary \b prevents matching data-href or nohref.
+// Limits: double-quoted attributes only; srcset and absolute same-site URLs
+// are not checked.
+var linkAttr = regexp.MustCompile(`\b(?:href|src)="([^"]*)"`)
 
-// CheckLinks reports every root-relative href or src in dir's HTML files that
-// doesn't resolve to a file in dir. External, mailto and fragment-only links
-// are skipped.
+// cssURL matches root-relative url() references in CSS files.
+var cssURL = regexp.MustCompile(`url\(["']?(/[^"')]+)["']?\)`)
+
+// CheckLinks reports every root-relative href, src, or CSS url() in dir's
+// HTML and CSS files that doesn't resolve to a file in dir. External, mailto
+// and fragment-only links are skipped.
+// Limits: HTML scanning covers double-quoted attributes only; srcset and
+// absolute same-site URLs are not checked.
 func CheckLinks(dir string) error {
 	var broken []error
 	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
-		if err != nil || d.IsDir() || filepath.Ext(path) != ".html" {
+		if err != nil || d.IsDir() {
 			return err
 		}
 		data, err := os.ReadFile(path)
@@ -27,13 +36,24 @@ func CheckLinks(dir string) error {
 			return err
 		}
 		rel, _ := filepath.Rel(dir, path)
-		for _, m := range linkAttr.FindAllSubmatch(data, -1) {
-			link := html.UnescapeString(string(m[1]))
-			if !strings.HasPrefix(link, "/") || strings.HasPrefix(link, "//") {
-				continue
+		ext := filepath.Ext(path)
+		switch ext {
+		case ".html":
+			for _, m := range linkAttr.FindAllSubmatch(data, -1) {
+				link := html.UnescapeString(string(m[1]))
+				if !strings.HasPrefix(link, "/") || strings.HasPrefix(link, "//") {
+					continue
+				}
+				if !resolves(dir, link) {
+					broken = append(broken, fmt.Errorf("%s: broken link %s", rel, link))
+				}
 			}
-			if !resolves(dir, link) {
-				broken = append(broken, fmt.Errorf("%s: broken link %s", rel, link))
+		case ".css":
+			for _, m := range cssURL.FindAllSubmatch(data, -1) {
+				link := string(m[1])
+				if !resolves(dir, link) {
+					broken = append(broken, fmt.Errorf("%s: broken link %s", rel, link))
+				}
 			}
 		}
 		return nil

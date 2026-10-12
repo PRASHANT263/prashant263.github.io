@@ -1,5 +1,5 @@
-// Package site builds the static site: it is the only package that touches
-// the filesystem.
+// Package site builds the static site: it is the only package that writes
+// the built site.
 package site
 
 import (
@@ -7,15 +7,20 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"portfolio/internal/content"
 	"portfolio/internal/render"
 )
 
-// Build loads and validates content, then replaces OutDir with the rendered
-// site plus static files, and checks internal links. Content and template
-// errors are reported before OutDir is touched.
+// Build loads and validates content, renders every page, then replaces OutDir
+// with the static files and rendered pages, and checks internal links.
+// Content, template-parse and template-execution errors are all reported
+// before OutDir is touched.
 func Build(cfg Config) error {
+	if err := checkOutDir(cfg); err != nil {
+		return err
+	}
 	s, err := content.Load(os.DirFS(cfg.ContentDir))
 	if err != nil {
 		return err
@@ -27,55 +32,67 @@ func Build(cfg Config) error {
 	if err != nil {
 		return err
 	}
+	// Render all pages BEFORE touching OutDir so that template execution
+	// errors leave the previous output untouched.
+	rendered, err := renderAll(r, s)
+	if err != nil {
+		return err
+	}
 	if err := resetDir(cfg.OutDir); err != nil {
 		return err
 	}
 	if err := copyDir(cfg.StaticDir, cfg.OutDir); err != nil {
 		return err
 	}
-	if err := writePages(r, s, cfg.OutDir); err != nil {
-		return err
+	for _, p := range rendered {
+		if err := writeFile(filepath.Join(cfg.OutDir, p.file), p.data); err != nil {
+			return err
+		}
 	}
 	return CheckLinks(cfg.OutDir)
 }
 
-func writePages(r *render.Renderer, s *content.Site, out string) error {
-	type page struct {
+type renderedPage struct {
+	file string
+	data []byte
+}
+
+func renderAll(r *render.Renderer, s *content.Site) ([]renderedPage, error) {
+	type spec struct {
 		file   string
 		render func() ([]byte, error)
 	}
-	pages := []page{
+	specs := []spec{
 		{"index.html", func() ([]byte, error) { return r.Home(s) }},
 		{"blog/index.html", func() ([]byte, error) { return r.BlogIndex(s) }},
 		{"404.html", func() ([]byte, error) { return r.NotFound(s) }},
 	}
 	urls := []string{"/", "/blog/"}
 	for _, cs := range s.CaseStudies {
-		cs := cs // capture loop variable
-		pages = append(pages, page{"case-studies/" + cs.Slug + "/index.html", func() ([]byte, error) { return r.CaseStudy(s, cs) }})
+		cs := cs
+		specs = append(specs, spec{"case-studies/" + cs.Slug + "/index.html", func() ([]byte, error) { return r.CaseStudy(s, cs) }})
 		urls = append(urls, "/case-studies/"+cs.Slug+"/")
 	}
 	for _, e := range s.Blog {
-		e := e // capture loop variable
+		e := e
 		if e.IsExternal() {
 			continue
 		}
-		pages = append(pages, page{"blog/" + e.Slug + "/index.html", func() ([]byte, error) { return r.Post(s, e) }})
+		specs = append(specs, spec{"blog/" + e.Slug + "/index.html", func() ([]byte, error) { return r.Post(s, e) }})
 		urls = append(urls, e.Href())
 	}
-	for _, p := range pages {
-		html, err := p.render()
+
+	pages := make([]renderedPage, 0, len(specs)+2)
+	for _, sp := range specs {
+		data, err := sp.render()
 		if err != nil {
-			return err
+			return nil, err
 		}
-		if err := writeFile(filepath.Join(out, p.file), html); err != nil {
-			return err
-		}
+		pages = append(pages, renderedPage{sp.file, data})
 	}
-	if err := writeFile(filepath.Join(out, "sitemap.xml"), render.Sitemap(s.Profile.SiteURL, urls)); err != nil {
-		return err
-	}
-	return writeFile(filepath.Join(out, "robots.txt"), render.Robots(s.Profile.SiteURL))
+	pages = append(pages, renderedPage{"sitemap.xml", render.Sitemap(s.Profile.SiteURL, urls)})
+	pages = append(pages, renderedPage{"robots.txt", render.Robots(s.Profile.SiteURL)})
+	return pages, nil
 }
 
 func writeFile(path string, data []byte) error {
@@ -119,4 +136,51 @@ func copyDir(src, dst string) error {
 		}
 		return os.WriteFile(target, data, 0o644)
 	})
+}
+
+// checkOutDir resolves all Config paths to absolute form and refuses
+// configurations where OutDir would overlap with a source directory or the
+// current working directory.
+func checkOutDir(cfg Config) error {
+	out, err := filepath.Abs(cfg.OutDir)
+	if err != nil {
+		return fmt.Errorf("out dir: %w", err)
+	}
+	cwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	sources := []struct {
+		name string
+		dir  string
+	}{
+		{"content", cfg.ContentDir},
+		{"templates", cfg.TemplatesDir},
+		{"static", cfg.StaticDir},
+	}
+	for _, src := range sources {
+		abs, err := filepath.Abs(src.dir)
+		if err != nil {
+			return fmt.Errorf("%s dir: %w", src.name, err)
+		}
+		if within(abs, out) || within(out, abs) {
+			return fmt.Errorf("out dir %q overlaps with %s dir %q", out, src.name, abs)
+		}
+	}
+	// Refuse when OutDir equals or contains the working directory.
+	if within(out, cwd) {
+		return fmt.Errorf("out dir %q equals or contains the working directory %q", out, cwd)
+	}
+	return nil
+}
+
+// within reports whether child is equal to or nested inside parent.
+// It uses filepath.Rel: the result is "." (equal) or doesn't start with "..".
+func within(parent, child string) bool {
+	rel, err := filepath.Rel(parent, child)
+	if err != nil {
+		return false
+	}
+	return rel == "." || !strings.HasPrefix(rel, "..")
 }

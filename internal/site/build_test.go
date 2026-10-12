@@ -52,3 +52,79 @@ func TestResetDirRefusesDangerousPaths(t *testing.T) {
 		}
 	}
 }
+
+// TestCheckOutDir verifies that Build refuses when OutDir would overlap with
+// a source directory or the working directory.
+func TestCheckOutDir(t *testing.T) {
+	tmp := t.TempDir()
+	content := filepath.Join(tmp, "content")
+	templates := filepath.Join(tmp, "templates")
+	static := filepath.Join(tmp, "static")
+	out := filepath.Join(tmp, "out")
+	for _, p := range []string{content, templates, static, out} {
+		if err := os.MkdirAll(p, 0o755); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	good := Config{ContentDir: content, TemplatesDir: templates, StaticDir: static, OutDir: out}
+	if err := checkOutDir(good); err != nil {
+		t.Errorf("good config: unexpected error: %v", err)
+	}
+
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	parentOfCwd := filepath.Dir(cwd)
+
+	cases := []struct {
+		name   string
+		outDir string
+	}{
+		{"out == content", content},
+		{"out == static", static},
+		{"out == templates", templates},
+		{"out inside static", filepath.Join(static, "sub")},
+		{"out == parent of cwd (..)", parentOfCwd},
+		{"out == cwd", cwd},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			cfg := Config{ContentDir: content, TemplatesDir: templates, StaticDir: static, OutDir: tc.outDir}
+			if err := checkOutDir(cfg); err == nil {
+				t.Errorf("checkOutDir with out=%q: expected error, got nil", tc.outDir)
+			}
+		})
+	}
+}
+
+// TestBuildRenderErrorKeepsPreviousOutput confirms that a template
+// execution error does not wipe the previous OutDir contents.
+func TestBuildRenderErrorKeepsPreviousOutput(t *testing.T) {
+	// Copy the real templates to a temp dir and overwrite pages/404.html with
+	// a template that fails at execution time (non-existent field on Page).
+	tmpTemplates := t.TempDir()
+	if err := copyDir("../../templates", tmpTemplates); err != nil {
+		t.Fatalf("copy templates: %v", err)
+	}
+	writeTestFile(t, filepath.Join(tmpTemplates, "pages", "404.html"),
+		`{{define "main"}}{{.NoSuchField}}{{end}}`)
+
+	cfg := Config{
+		ContentDir:   "testdata/content",
+		TemplatesDir: tmpTemplates,
+		StaticDir:    "../../static",
+		OutDir:       t.TempDir(),
+	}
+	marker := filepath.Join(cfg.OutDir, "keep.txt")
+	writeTestFile(t, marker, "old")
+
+	err := Build(cfg)
+	if err == nil {
+		t.Fatal("expected render error, got nil")
+	}
+	if _, err := os.Stat(marker); err != nil {
+		t.Error("output was cleared even though render failed")
+	}
+}
