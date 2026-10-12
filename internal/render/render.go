@@ -39,6 +39,7 @@ type Page struct {
 	Post        *content.BlogEntry
 	Tags        []string // every blog tag, for the blog filter
 	Year        int
+	NoIndex     bool // true for pages that should not be indexed (e.g. 404)
 }
 
 // SiteRoot is the site URL without a trailing slash.
@@ -60,7 +61,7 @@ func New(templates fs.FS) (*Renderer, error) {
 	for _, name := range pageNames {
 		t, err := template.New(name).Funcs(funcs).ParseFS(templates, "base.html", "partials/*.html", "pages/"+name+".html")
 		if err != nil {
-			return nil, fmt.Errorf("templates: %w", err)
+			return nil, fmt.Errorf("templates: page %s: %w", name, err)
 		}
 		r.pages[name] = t
 	}
@@ -100,11 +101,14 @@ func (r *Renderer) Post(s *content.Site, e content.BlogEntry) ([]byte, error) {
 }
 
 func (r *Renderer) NotFound(s *content.Site) ([]byte, error) {
-	return r.execute("404", Page{Site: s, Path: "/404.html", Title: "Page not found"})
+	return r.execute("404", Page{Site: s, Path: "/404.html", Title: "Page not found", NoIndex: true})
 }
 
 func (r *Renderer) execute(name string, p Page) ([]byte, error) {
 	p.Year = r.now().Year()
+	if p.Description == "" {
+		p.Description = p.Site.Profile.Pitch
+	}
 	var buf bytes.Buffer
 	if err := r.pages[name].ExecuteTemplate(&buf, "base", p); err != nil {
 		return nil, fmt.Errorf("render %s: %w", name, err)

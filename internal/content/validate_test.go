@@ -66,6 +66,7 @@ func TestValidateProblems(t *testing.T) {
 		{"blog bad slug", func(s *Site) { s.Blog[1].Slug = "Bad Slug" }, "blog.yaml: [1].slug:"},
 		{"blog duplicate slug", func(s *Site) { s.Blog[0].URL = ""; s.Blog[0].Slug = "local" }, "blog.yaml: [1].slug: duplicate"},
 		{"case study missing summary", func(s *Site) { s.CaseStudies[0].Summary = "" }, "case-studies/migration.md: summary: is required"},
+		{"blog bad tag", func(s *Site) { s.Blog[1].Tags = []string{"Good", "Bad Tag"} }, `blog.yaml: [1].tags: "Good" must be lowercase letters, digits and hyphens`},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

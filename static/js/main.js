@@ -1,11 +1,13 @@
 (() => {
   const root = document.documentElement;
+  root.classList.add("reveal-ready");
 
   // Theme: an explicit choice overrides the OS preference and is remembered.
   const themeBtn = document.querySelector(".theme-toggle");
   if (themeBtn) {
     themeBtn.addEventListener("click", () => {
-      const current = root.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      const stored = root.dataset.theme;
+      const current = (stored === "light" || stored === "dark") ? stored : (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
       const next = current === "light" ? "dark" : "light";
       root.dataset.theme = next;
       try { localStorage.setItem("theme", next); } catch (e) { /* storage unavailable */ }
@@ -66,13 +68,12 @@
     const show = (msg, kind) => { status.textContent = msg; status.dataset.kind = kind; };
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      if (!form.dataset.configured) {
-        show("The contact form isn't set up yet. Please use the email link.", "error");
-        return;
-      }
       if (!form.reportValidity()) return;
       const data = Object.fromEntries(new FormData(form));
-      if (data.botcheck) return; // only bots fill the hidden field
+      if (data.botcheck) {
+        show("Thanks! Your message has been sent.", "success");
+        return;
+      }
       delete data.redirect;
       button.disabled = true;
       show("Sending…", "info");
@@ -81,6 +82,7 @@
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(data),
+          signal: AbortSignal.timeout(15000),
         });
         const body = await res.json().catch(() => ({}));
         if (!res.ok || body.success === false) throw new Error(body.message || "request failed");

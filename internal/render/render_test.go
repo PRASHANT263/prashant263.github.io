@@ -105,3 +105,23 @@ func TestSitemapAndRobots(t *testing.T) {
 	mustContain(t, sm, "<loc>https://ada.example.com/</loc>", "<loc>https://ada.example.com/blog/</loc>")
 	mustContain(t, string(Robots("https://ada.example.com/")), "Sitemap: https://ada.example.com/sitemap.xml")
 }
+
+func TestDescriptionFallbackToPitch(t *testing.T) {
+	s := testSite()
+	s.Profile.Pitch = "Expert engineer."
+	// Post with no Summary: Description should fall back to Pitch.
+	entry := content.BlogEntry{Slug: "test", Title: "Test", Body: "# Hello"}
+	out, err := newTestRenderer(t).Post(s, entry)
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out), "<desc>Expert engineer.</desc>")
+}
+
+func TestNotFoundNoIndex(t *testing.T) {
+	out, err := newTestRenderer(t).NotFound(testSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out), `<meta name="robots" content="noindex">`)
+}

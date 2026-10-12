@@ -1,1 +1,1 @@
-{{define "base"}}<title>{{.Title}}</title>{{template "main" .}}{{template "footer" .}}{{end}}
+{{define "base"}}<title>{{.Title}}</title>{{if .NoIndex}}<meta name="robots" content="noindex">{{end}}<desc>{{.Description}}</desc>{{template "main" .}}{{template "footer" .}}{{end}}

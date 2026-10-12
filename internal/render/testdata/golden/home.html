@@ -13,10 +13,11 @@
 <meta property="og:image" content="https://ada.example.com/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0b1020">
+
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/style.css">
-<script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
 <script src="/js/main.js" defer></script>
 </head>
 <body>
@@ -161,7 +162,7 @@
       <p class="muted">Open to senior backend roles and good engineering conversations. Send a message or email me directly.</p>
       <p><a class="link" href="mailto:ada@example.com"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ada@example.com</a></p>
     </div>
-    <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-contact data-configured="true">
+    <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-contact>
       <input type="hidden" name="access_key" value="test-key">
       <input type="hidden" name="subject" value="New message from your portfolio">
       <input type="hidden" name="redirect" value="https://ada.example.com/#contact">

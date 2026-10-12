@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -87,13 +88,27 @@ func TestRealTemplatesContent(t *testing.T) {
 		`href="https://medium.com/@ada/x" target="_blank" rel="noopener"`,
 		`href="/blog/local/"`,
 		`name="access_key" value="test-key"`,
-		`data-configured="true"`,
 		`© 2026 Ada`,
 	)
 	mustContain(t, string(pages["blog.html"]), `<title>Writing · Ada</title>`, `data-tag="ddd"`, `data-blog-list`)
 	mustContain(t, string(pages["case-study.html"]), `<title>Migration · Ada</title>`, `<h2 id="problem">Problem</h2>`, `<li>faster</li>`)
 	mustContain(t, string(pages["post.html"]), `<h1>Local</h1>`, `<em>text</em>`)
 	mustContain(t, string(pages["404.html"]), `href="/"`)
+}
+
+func TestContactFormNoKey(t *testing.T) {
+	r := realRenderer(t)
+	s := fixtureSite()
+	s.Profile.Web3FormsKey = ""
+	out, err := r.Home(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := string(out)
+	if strings.Contains(body, "api.web3forms.com") {
+		t.Error("home with no Web3FormsKey must not render the web3forms form")
+	}
+	mustContain(t, body, "The contact form is coming soon.")
 }
 
 func TestRealTemplatesGolden(t *testing.T) {

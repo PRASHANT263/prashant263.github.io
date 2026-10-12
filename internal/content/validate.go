@@ -145,6 +145,11 @@ func (p *problems) blog(entries []BlogEntry) {
 			}
 			seen[e.Slug] = true
 		}
+		for _, tag := range e.Tags {
+			if !slugPattern.MatchString(tag) {
+				p.add(f, field("tags"), fmt.Sprintf("%q must be lowercase letters, digits and hyphens", tag))
+			}
+		}
 	}
 }
 
