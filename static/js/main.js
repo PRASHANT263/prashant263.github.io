@@ -1,6 +1,5 @@
 (() => {
   const root = document.documentElement;
-  root.classList.add("reveal-ready");
 
   // Theme: an explicit choice overrides the OS preference and is remembered.
   const themeBtn = document.querySelector(".theme-toggle");
@@ -27,6 +26,7 @@
   }
 
   // Reveal sections as they scroll into view.
+  root.classList.add("reveal-ready");
   const reveals = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver((entries) => {
@@ -82,7 +82,7 @@
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(data),
-          signal: AbortSignal.timeout(15000),
+          signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined,
         });
         const body = await res.json().catch(() => ({}));
         if (!res.ok || body.success === false) throw new Error(body.message || "request failed");
