@@ -16,11 +16,11 @@ resume_updated: 2026-08-31
 # still shows, but Send says "not connected yet, please use the email link". See DEPLOY.md "Contact form" for how to
 # find these values (form ID and each question's entry.<number>).
 contact_form:
-  action: ""                    # https://docs.google.com/forms/d/e/<form-id>/formResponse
-  name: ""                      # entry.<number> of the "Name" question
-  phone: ""                     # entry.<number> of "Contact number" (optional question)
-  email: ""                     # entry.<number> of "Email"
-  message: ""                   # entry.<number> of "Message"
+  action: "https://docs.google.com/forms/d/e/1FAIpQLSe9rFzOuJyajU1vfW5bb2vJVICdUnjiCspTcZn1XKxLLXy6BQ/formResponse"                    # https://docs.google.com/forms/d/e/<form-id>/formResponse
+  name: "entry.957460098"                      # entry.<number> of the "Name" question
+  phone: "entry.1929346945"                     # entry.<number> of "Contact number" (optional question)
+  email: "entry.1929586104"                     # entry.<number> of "Email"
+  message: "entry.367120131"                   # entry.<number> of "Message"
 about:                          # three cards; icon: code | target | users
   - title: What I do
     icon: code
