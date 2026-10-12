@@ -7,6 +7,7 @@ expertise: [Go, Domain-Driven Design, Distributed systems, Microservices, AWS, M
 location: Bengaluru, India
 email: prashantab8505@gmail.com
 site_url: https://prashant263.github.io
+avatar: img/avatar.svg         # round "P" left of your name; delete the line to hide it
 photo: img/profile.svg          # portrait 4:5 works best (e.g. 800x1000); change to img/profile.jpg once added
 resume: resume.pdf
 resume_preview: img/resume-preview.png

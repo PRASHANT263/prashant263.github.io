@@ -22,6 +22,7 @@ type Profile struct {
 	Location      string       `yaml:"location"`
 	Email         string       `yaml:"email"`
 	Photo         string       `yaml:"photo"`          // path under static/
+	Avatar        string       `yaml:"avatar"`         // optional round monogram left of the name, path under static/
 	Resume        string       `yaml:"resume"`         // path under static/
 	ResumePreview string       `yaml:"resume_preview"` // optional, path under static/
 	ResumeUpdated Date         `yaml:"resume_updated"`

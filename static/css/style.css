@@ -110,7 +110,13 @@ main { width: var(--frame); margin: 0 auto; }
 /* Home: hero + About fill the first screen together; Experience starts below. */
 .home { display: flex; flex-direction: column; justify-content: center; gap: clamp(20px, 3.5vh, 40px); padding: clamp(28px, 5vh, 64px) 0 clamp(24px, 4vh, 48px); }
 @media (min-width: 768px) and (min-height: 640px) { .home { min-height: calc(100svh - 72px); } }
-.hero { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: clamp(28px, 4vw, 72px); }
+.hero { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(28px, 4vw, 72px); }
+/* Round monogram on the left, with a rotating gradient ring. */
+.hero-avatar { position: relative; width: clamp(170px, min(15vw, 28vh), 250px); height: clamp(170px, min(15vw, 28vh), 250px); padding: 5px; border-radius: 50%; background: conic-gradient(from var(--angle), var(--blob-1), var(--blob-2), var(--blob-3), var(--blob-1)); animation: spin 8s linear infinite; }
+.hero-avatar::after { content: ""; position: absolute; inset: -14px; z-index: -1; border-radius: 50%; background: linear-gradient(135deg, var(--blob-1), var(--blob-3)); filter: blur(28px); opacity: .5; }
+.hero-avatar img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); }
+/* Three columns get cramped below ~1100px: keep the photo, drop the monogram. */
+@media (max-width: 1100px) { .hero { grid-template-columns: 1fr auto; } .hero-avatar { display: none; } }
 /* Portrait frame on the right: rounded rectangle with a slowly rotating gradient border. */
 .hero-photo { position: relative; justify-self: end; height: clamp(280px, 46vh, 480px); aspect-ratio: 4 / 5; padding: 5px; border-radius: 32px; background: conic-gradient(from var(--angle), var(--blob-1), var(--blob-2), var(--blob-3), var(--blob-1)); animation: spin 8s linear infinite; }
 .hero-photo::after { content: ""; position: absolute; inset: -18px; z-index: -1; border-radius: 44px; background: linear-gradient(135deg, var(--blob-1), var(--blob-3)); filter: blur(36px); opacity: .45; }
@@ -124,7 +130,7 @@ main { width: var(--frame); margin: 0 auto; }
 @keyframes blink { 50% { opacity: 0; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .hero h1 { font-size: clamp(2.6rem, min(5.5vw, 10vh), 5.2rem); margin: 0; background: linear-gradient(120deg, var(--text) 35%, var(--accent) 70%, var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.role { font-size: clamp(1.2rem, 1.6vw, 1.5rem); font-weight: 600; margin: 6px 0 12px; }
+.role { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: clamp(1.2rem, 1.6vw, 1.5rem); font-weight: 600; margin: 6px 0 12px; }
 .pitch { color: var(--muted); max-width: 62ch; font-size: clamp(1.08rem, 1.2vw, 1.25rem); }
 .socials { display: flex; gap: 10px; list-style: none; padding: 0; margin: 0; }
 .socials a { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--glass); color: var(--text); transition: transform .2s, color .2s; }
@@ -147,7 +153,7 @@ main { width: var(--frame); margin: 0 auto; }
   .about-card { padding: 16px 20px; gap: 6px; }
   .about-icon { width: 36px; height: 36px; font-size: 1.05rem; }
 }
-.hero-badge { display: inline-flex; align-items: baseline; gap: 6px; margin-left: 10px; padding: 4px 12px; border-radius: 999px; vertical-align: .15em; background: var(--chip-bg); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); color: var(--chip-text); font-size: .85rem; font-weight: 500; white-space: nowrap; }
+.hero-badge { display: inline-flex; align-items: baseline; gap: 6px; padding: 4px 12px; border-radius: 999px; vertical-align: .15em; background: var(--chip-bg); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); color: var(--chip-text); font-size: .85rem; font-weight: 500; white-space: nowrap; }
 .hero-badge strong { font-weight: 700; }
 
 /* ---------- Experience timeline ---------- */
@@ -269,7 +275,7 @@ main { width: var(--frame); margin: 0 auto; }
   .nav-links { display: none; order: 3; width: 100%; flex-direction: column; padding: 4px 0; }
   .nav-links.open { display: flex; }
   .hero { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 28px; }
-  .hero-badge { display: table; margin: 10px auto 0; }
+  .role { justify-content: center; }
   .hero-photo { order: -1; justify-self: center; height: 300px; }
   .hero .actions, .hero .socials { justify-content: center; }
   .pitch { margin-inline: auto; }

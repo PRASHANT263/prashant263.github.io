@@ -229,3 +229,18 @@ func TestHeroPhotoSitsAfterText(t *testing.T) {
 	}
 	mustContain(t, body, `<img src="/img/ada.jpg" alt="Photo of Ada" width="400" height="500"`)
 }
+
+func TestHeroAvatarCircleOnLeft(t *testing.T) {
+	s := fixtureSite()
+	s.Profile.Avatar = "img/avatar.svg"
+	out, err := realRenderer(t).Home(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := string(out)
+	avatar, text, photo := strings.Index(body, `<div class="hero-avatar">`), strings.Index(body, `<div class="hero-text">`), strings.Index(body, `<div class="hero-photo">`)
+	if avatar < 0 || !(avatar < text && text < photo) {
+		t.Errorf("want avatar, text, photo in that order; got %d, %d, %d", avatar, text, photo)
+	}
+	mustContain(t, body, `<img src="/img/avatar.svg" alt="" width="220" height="220">`)
+}

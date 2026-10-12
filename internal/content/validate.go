@@ -73,6 +73,7 @@ func (p *problems) profile(pr Profile, static fs.FS) {
 		p.add(f, "email", fmt.Sprintf("%q is not an email address", pr.Email))
 	}
 	p.staticFile(static, f, "photo", pr.Photo)
+	p.staticFile(static, f, "avatar", pr.Avatar)
 	p.staticFile(static, f, "resume", pr.Resume)
 	p.staticFile(static, f, "resume_preview", pr.ResumePreview)
 	for i, a := range pr.About {
