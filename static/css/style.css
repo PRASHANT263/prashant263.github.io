@@ -106,15 +106,18 @@ main { width: var(--frame); margin: 0 auto; }
 /* ---------- Hero ---------- */
 @property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
 @keyframes spin { to { --angle: 360deg; } }
-.hero { display: flex; align-items: center; gap: clamp(40px, 6vw, 96px); padding: clamp(72px, 9vw, 128px) 0 56px; }
-.hero-photo { position: relative; flex: none; width: clamp(220px, 20vw, 300px); height: clamp(220px, 20vw, 300px); padding: 5px; border-radius: 50%; background: conic-gradient(from var(--angle), var(--blob-1), var(--blob-2), var(--blob-3), var(--blob-1)); animation: spin 8s linear infinite; }
+/* Home: hero + About fill the first screen together; Experience starts below. */
+.home { display: flex; flex-direction: column; justify-content: center; gap: clamp(20px, 3.5vh, 40px); padding: clamp(28px, 5vh, 64px) 0 clamp(24px, 4vh, 48px); }
+@media (min-width: 768px) and (min-height: 640px) { .home { min-height: calc(100svh - 72px); } }
+.hero { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(28px, 4vw, 72px); }
+.hero-photo { position: relative; flex: none; width: clamp(170px, min(16vw, 28vh), 260px); height: clamp(170px, min(16vw, 28vh), 260px); padding: 5px; border-radius: 50%; background: conic-gradient(from var(--angle), var(--blob-1), var(--blob-2), var(--blob-3), var(--blob-1)); animation: spin 8s linear infinite; }
 .hero-photo::after { content: ""; position: absolute; inset: -14px; z-index: -1; border-radius: 50%; background: linear-gradient(135deg, var(--blob-1), var(--blob-3)); filter: blur(28px); opacity: .5; }
 .hero-photo img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); }
 .eyebrow { color: var(--accent-2); margin: 0 0 4px; font-size: .95rem; }
 .cursor { display: inline-block; width: 2px; height: 1.15em; margin-left: 2px; vertical-align: -.22em; background: currentColor; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.hero h1 { font-size: clamp(2.6rem, 6vw, 5.5rem); margin: 0; background: linear-gradient(120deg, var(--text) 35%, var(--accent) 70%, var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero h1 { font-size: clamp(2.6rem, min(5.5vw, 10vh), 5.2rem); margin: 0; background: linear-gradient(120deg, var(--text) 35%, var(--accent) 70%, var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .role { font-size: clamp(1.2rem, 1.6vw, 1.5rem); font-weight: 600; margin: 6px 0 12px; }
 .pitch { color: var(--muted); max-width: 62ch; font-size: clamp(1.08rem, 1.2vw, 1.25rem); }
 .socials { display: flex; gap: 10px; list-style: none; padding: 0; margin: 0; }
@@ -122,9 +125,13 @@ main { width: var(--frame); margin: 0 auto; }
 .socials a:hover { transform: translateY(-2px); color: var(--accent-2); }
 
 /* ---------- About ---------- */
-.about { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(32px, 4vw, 64px); align-items: center; }
+.about { padding: clamp(20px, 2.5vw, 32px); }
+.about-title { font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); margin: 0 0 12px; }
+.about-text { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 12px clamp(24px, 3vw, 48px); }
+.about-text p { margin: 0; color: var(--muted); }
 .about-text p:last-child { margin-bottom: 0; }
-.facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: clamp(300px, 26vw, 400px); }
+@media (max-width: 1100px) { .hero { grid-template-columns: auto 1fr; } .hero .facts { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); width: 100%; } }
 .facts li { padding: 16px; border-radius: 12px; background: var(--glass-strong); border: 1px solid var(--border); }
 .facts strong { display: block; font-size: 1.6rem; background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .facts span { font-size: .85rem; color: var(--muted); }
@@ -223,11 +230,12 @@ main { width: var(--frame); margin: 0 auto; }
   .nav-toggle { display: inline-grid; }
   .nav-links { display: none; order: 3; width: 100%; flex-direction: column; padding: 4px 0; }
   .nav-links.open { display: flex; }
-  .hero { flex-direction: column; text-align: center; gap: 32px; padding-top: 48px; }
+  .hero { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 28px; }
+  .hero .facts { grid-template-columns: 1fr 1fr; text-align: left; }
   .hero-photo { width: 180px; height: 180px; }
   .hero .actions, .hero .socials { justify-content: center; }
   .pitch { margin-inline: auto; }
-  .about, .resume, .contact { grid-template-columns: 1fr; }
+  .resume, .contact { grid-template-columns: 1fr; }
   .resume-preview { justify-self: center; width: 180px; }
   .timeline { padding-left: 20px; }
   .role-card::before { left: -30px; }

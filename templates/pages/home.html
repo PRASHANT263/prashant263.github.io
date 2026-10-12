@@ -1,25 +1,24 @@
 {{define "main"}}
 {{with .Site.Profile}}
-<section class="hero" id="top">
-  <div class="hero-photo"><img src="{{asset .Photo}}" alt="Photo of {{.Name}}" width="220" height="220" fetchpriority="high"></div>
-  <div class="hero-text">
-    <p class="eyebrow mono">{{with .Greetings}}<span class="sr-only">{{index . 0}}, I'm</span><span aria-hidden="true"><span class="greet" data-greetings="{{join . "|"}}">{{index . 0}}</span><span class="cursor"></span>, I'm</span>{{else}}Hi, I'm{{end}}</p>
-    <h1>{{.Name}}</h1>
-    <p class="role">{{.Title}}</p>
-    <p class="pitch">{{.Pitch}}</p>
-    <div class="actions">
-      <a class="btn primary" href="#work">View work {{template "icon-arrow"}}</a>
-      <a class="btn" href="{{asset .Resume}}" download>Download resume {{template "icon-download"}}</a>
+<section class="home" id="top">
+  <div class="hero">
+    <div class="hero-photo"><img src="{{asset .Photo}}" alt="Photo of {{.Name}}" width="220" height="220" fetchpriority="high"></div>
+    <div class="hero-text">
+      <p class="eyebrow mono">{{with .Greetings}}<span class="sr-only">{{index . 0}}, I'm</span><span aria-hidden="true"><span class="greet" data-greetings="{{join . "|"}}">{{index . 0}}</span><span class="cursor"></span>, I'm</span>{{else}}Hi, I'm{{end}}</p>
+      <h1>{{.Name}}</h1>
+      <p class="role">{{.Title}}</p>
+      <p class="pitch">{{.Pitch}}</p>
+      <div class="actions">
+        <a class="btn primary" href="#work">View work {{template "icon-arrow"}}</a>
+        <a class="btn" href="{{asset .Resume}}" download>Download resume {{template "icon-download"}}</a>
+      </div>
+      {{template "socials" .Socials}}
     </div>
-    {{template "socials" .Socials}}
-  </div>
-</section>
-
-<section id="about" class="section reveal">
-  <h2 class="section-title">About</h2>
-  <div class="about glass card">
-    <div class="about-text">{{range .About}}<p>{{.}}</p>{{end}}</div>
     {{with .Facts}}<ul class="facts">{{range .}}<li><strong>{{.Value}}</strong><span>{{.Label}}</span></li>{{end}}</ul>{{end}}
+  </div>
+  <div id="about" class="about glass card">
+    <h2 class="about-title mono">About me</h2>
+    <div class="about-text">{{range .About}}<p>{{.}}</p>{{end}}</div>
   </div>
 </section>
 {{end}}
