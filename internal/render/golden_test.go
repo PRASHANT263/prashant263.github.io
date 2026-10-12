@@ -216,3 +216,16 @@ func TestFactsRenderAsHeroBadge(t *testing.T) {
 		t.Error("stat cards should no longer render")
 	}
 }
+
+func TestHeroPhotoSitsAfterText(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := string(out)
+	text, photo := strings.Index(body, `<div class="hero-text">`), strings.Index(body, `<div class="hero-photo">`)
+	if text < 0 || photo < 0 || photo < text {
+		t.Errorf("hero photo should come after the hero text (right column); text=%d photo=%d", text, photo)
+	}
+	mustContain(t, body, `<img src="/img/ada.jpg" alt="Photo of Ada" width="400" height="500"`)
+}

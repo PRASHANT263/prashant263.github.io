@@ -110,10 +110,11 @@ main { width: var(--frame); margin: 0 auto; }
 /* Home: hero + About fill the first screen together; Experience starts below. */
 .home { display: flex; flex-direction: column; justify-content: center; gap: clamp(20px, 3.5vh, 40px); padding: clamp(28px, 5vh, 64px) 0 clamp(24px, 4vh, 48px); }
 @media (min-width: 768px) and (min-height: 640px) { .home { min-height: calc(100svh - 72px); } }
-.hero { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: clamp(28px, 4vw, 72px); }
-.hero-photo { position: relative; flex: none; width: clamp(170px, min(16vw, 28vh), 260px); height: clamp(170px, min(16vw, 28vh), 260px); padding: 5px; border-radius: 50%; background: conic-gradient(from var(--angle), var(--blob-1), var(--blob-2), var(--blob-3), var(--blob-1)); animation: spin 8s linear infinite; }
-.hero-photo::after { content: ""; position: absolute; inset: -14px; z-index: -1; border-radius: 50%; background: linear-gradient(135deg, var(--blob-1), var(--blob-3)); filter: blur(28px); opacity: .5; }
-.hero-photo img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); }
+.hero { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: clamp(28px, 4vw, 72px); }
+/* Portrait frame on the right: rounded rectangle with a slowly rotating gradient border. */
+.hero-photo { position: relative; justify-self: end; height: clamp(280px, 46vh, 480px); aspect-ratio: 4 / 5; padding: 5px; border-radius: 32px; background: conic-gradient(from var(--angle), var(--blob-1), var(--blob-2), var(--blob-3), var(--blob-1)); animation: spin 8s linear infinite; }
+.hero-photo::after { content: ""; position: absolute; inset: -18px; z-index: -1; border-radius: 44px; background: linear-gradient(135deg, var(--blob-1), var(--blob-3)); filter: blur(36px); opacity: .45; }
+.hero-photo img { display: block; width: 100%; height: 100%; border-radius: 28px; object-fit: cover; border: 4px solid var(--bg); }
 .eyebrow { color: var(--accent-2); margin: 0 0 4px; font-size: .95rem; }
 .status-pill { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 5px 14px 5px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--glass-strong); font-size: .85rem; font-weight: 500; }
 .status-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
@@ -269,7 +270,7 @@ main { width: var(--frame); margin: 0 auto; }
   .nav-links.open { display: flex; }
   .hero { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 28px; }
   .hero-badge { display: table; margin: 10px auto 0; }
-  .hero-photo { width: 180px; height: 180px; }
+  .hero-photo { order: -1; justify-self: center; height: 300px; }
   .hero .actions, .hero .socials { justify-content: center; }
   .pitch { margin-inline: auto; }
   .resume, .contact { grid-template-columns: 1fr; }

@@ -16,7 +16,7 @@ Everything lives in `content/`. No code changes needed:
 |---|---|
 | Add a blog link | `content/blog.yaml` (example inside) |
 | Update the resume | replace `static/resume.pdf`, regenerate the preview with `sips -s format png --resampleWidth 600 static/resume.pdf --out static/img/resume-preview.png`, bump `resume_updated` in `content/profile.yaml` |
-| Change the photo | add `static/img/profile.jpg`, set `photo: img/profile.jpg` |
+| Change the photo | add a portrait (4:5) `static/img/profile.jpg`, set `photo: img/profile.jpg` |
 | Add a case study | new `content/case-studies/<slug>.md` with front matter |
 | Add a project | `content/projects.yaml` |
 

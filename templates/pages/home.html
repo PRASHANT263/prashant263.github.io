@@ -2,7 +2,6 @@
 {{with .Site.Profile}}
 <section class="home" id="top">
   <div class="hero">
-    <div class="hero-photo"><img src="{{asset .Photo}}" alt="Photo of {{.Name}}" width="220" height="220" fetchpriority="high"></div>
     <div class="hero-text">
       {{with .Status}}<p class="status-pill"><span class="status-dot" aria-hidden="true"></span>{{.}}</p>{{end}}
       <p class="eyebrow mono">{{with .Greetings}}<span class="sr-only">{{index . 0}}, I'm</span><span aria-hidden="true"><span class="greet" data-greetings="{{join . "|"}}">{{index . 0}}</span><span class="cursor"></span>, I'm</span>{{else}}Hi, I'm{{end}}</p>
@@ -15,6 +14,7 @@
       </div>
       {{template "socials" .Socials}}
     </div>
+    <div class="hero-photo"><img src="{{asset .Photo}}" alt="Photo of {{.Name}}" width="400" height="500" fetchpriority="high"></div>
   </div>
   <div id="about" class="about">
     <h2 class="about-title mono">About me</h2>
