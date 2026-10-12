@@ -323,3 +323,17 @@ func TestContactFormFieldsInGrid(t *testing.T) {
 		`<div class="form-actions"><button class="btn primary" type="submit">Send message</button>`,
 	)
 }
+
+func TestBlogLinksScrollToWriting(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := string(out)
+	if strings.Contains(body, `href="/blog/">Blog</a>`) {
+		t.Error("nav/footer Blog should jump to the Writing section, not the /blog/ page")
+	}
+	if n := strings.Count(body, `href="/#blog">Blog</a>`); n != 2 {
+		t.Errorf("Blog links to /#blog = %d, want 2 (nav + footer)", n)
+	}
+}
