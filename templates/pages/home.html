@@ -11,7 +11,7 @@
       <p class="pitch">{{.Pitch}}</p>
       <div class="actions">
         <a class="btn primary" href="#work">View work {{template "icon-arrow"}}</a>
-        <a class="btn" href="{{asset .Resume}}" download>Download resume {{template "icon-download"}}</a>
+        <a class="btn" href="#resume">Download CV {{template "icon-download"}}</a>
       </div>
       {{template "socials" .Socials}}
     </div>
@@ -104,7 +104,7 @@
       <p class="muted">A one-page summary of my experience, skills and achievements.</p>
       {{if not .ResumeUpdated.IsZero}}<p class="mono muted">Last updated {{.ResumeUpdated.Human}}</p>{{end}}
       <div class="actions">
-        <a class="btn primary" href="{{asset .Resume}}" download>Download PDF {{template "icon-download"}}</a>
+        <a class="btn primary" href="{{asset .Resume}}" download>Download CV {{template "icon-download"}}</a>
         <a class="btn" href="{{asset .Resume}}" target="_blank" rel="noopener">View online {{template "icon-external"}}</a>
       </div>
     </div>

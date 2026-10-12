@@ -195,10 +195,11 @@ func TestResumeDownloadNotRepeated(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	// Hero button + Resume section button only; the CTA band and footer don't repeat it.
-	if n := strings.Count(string(out), `href="/resume.pdf" download`); n != 2 {
-		t.Errorf("resume download links = %d, want 2", n)
+	// Only the Resume section downloads; the hero's "Download CV" scrolls there.
+	if n := strings.Count(string(out), `href="/resume.pdf" download`); n != 1 {
+		t.Errorf("resume download links = %d, want 1", n)
 	}
+	mustContain(t, string(out), `<a class="btn" href="#resume">Download CV`, `href="/resume.pdf" download>Download CV`)
 	if strings.Contains(string(out), "Resume (PDF)") {
 		t.Error("footer should not repeat the resume link")
 	}
