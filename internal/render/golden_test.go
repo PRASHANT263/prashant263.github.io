@@ -172,7 +172,7 @@ func TestHomeSectionsFromSashwatIdeas(t *testing.T) {
 		// recognition section
 		`id="recognition"`, `<h3>Star Performer</h3>`, `<p class="when mono">2018 – 2022</p>`,
 		// closing call-to-action band
-		`class="cta-band`, `href="mailto:ada@example.com"`,
+		`href="mailto:ada@example.com"`,
 		// richer footer
 		`<h4>Quick links</h4>`, `<h4>Expertise</h4>`, `<li>DDD</li>`, `<h4>Resources</h4>`,
 	)
@@ -290,5 +290,22 @@ func TestContactFormPostsToGoogleForm(t *testing.T) {
 		`<input name="entry.3" type="email" required`,
 		`<textarea name="entry.4" required`,
 		`data-honeypot`,
+	)
+}
+
+func TestCallToActionMergedIntoContact(t *testing.T) {
+	out, err := realRenderer(t).Home(fixtureSite())
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := string(out)
+	if strings.Contains(body, "cta-band") {
+		t.Error("the separate call-to-action band should be merged into Contact")
+	}
+	contact := body[strings.Index(body, `<section id="contact"`):]
+	mustContain(t, contact,
+		`<h2 class="section-title">Building something in fintech or backend?</h2>`,
+		`I enjoy hard problems in distributed systems, lending and clean architecture`,
+		`<form class="contact-form"`,
 	)
 }

@@ -190,7 +190,8 @@ main { width: var(--frame); margin: 0 auto; }
 .resume-preview { width: 220px; height: auto; border-radius: 8px; background: #fff; box-shadow: var(--shadow); transform: rotate(-2deg); }
 
 /* ---------- Contact ---------- */
-.contact { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; }
+.contact { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; padding: clamp(24px, 3.5vw, 48px); background: linear-gradient(135deg, color-mix(in srgb, var(--blob-1) 18%, transparent), color-mix(in srgb, var(--blob-3) 14%, transparent)), var(--glass); }
+.contact h3 { font-size: 1.4rem; }
 .contact-form { display: grid; gap: 14px; }
 .contact-form label { display: grid; gap: 6px; font-weight: 600; font-size: .9rem; }
 .contact-form input, .contact-form textarea { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--glass-strong); color: var(--text); font: 1rem var(--font); }
@@ -244,12 +245,6 @@ main { width: var(--frame); margin: 0 auto; }
 .recog-icon { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #4f46e5, #7c3aed 60%, #0f766e); font-size: 1.2rem; }
 .when { margin: 0; color: var(--accent-2); font-size: .82rem; }
 
-/* ---------- Closing call to action ---------- */
-.cta-band { display: flex; align-items: center; justify-content: space-between; gap: 24px 48px; flex-wrap: wrap; margin: 40px 0 0; padding: clamp(28px, 4vw, 56px); background: linear-gradient(135deg, color-mix(in srgb, var(--blob-1) 22%, transparent), color-mix(in srgb, var(--blob-3) 18%, transparent)), var(--glass); }
-.cta-band h2 { font-size: clamp(1.5rem, 3vw, 2.3rem); margin: 0 0 8px; }
-.cta-band p { margin: 0; max-width: 60ch; }
-.cta-band .actions { margin: 0; }
-
 /* ---------- Footer ---------- */
 .footer { width: var(--frame); margin: 64px auto 0; padding: 48px 0 40px; color: var(--muted); font-size: .92rem; border-top: 1px solid var(--border); }
 .footer p { margin: 0; }
@@ -272,7 +267,6 @@ main { width: var(--frame); margin: 0 auto; }
 
 /* ---------- Mobile ---------- */
 @media (max-width: 767px) {
-  .cta-band { flex-direction: column; align-items: flex-start; }
   .nav { border-radius: 20px; flex-wrap: wrap; }
   .nav-toggle { display: inline-grid; }
   .nav-links { display: none; order: 3; width: 100%; flex-direction: column; padding: 4px 0; }

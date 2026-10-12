@@ -137,26 +137,13 @@
 {{end}}
 
 {{with .Site.Profile}}
-<section class="cta-band glass reveal" aria-label="Get in touch">
-  <div>
-    <h2>Building something in fintech or backend?</h2>
-    <p class="muted">I enjoy hard problems in distributed systems, lending and clean architecture. Let's talk.</p>
-  </div>
-  <div class="actions">
-    <a class="btn primary" href="mailto:{{.Email}}">Email me {{template "icon-mail"}}</a>
-    <a class="btn" href="#contact">Send a message {{template "icon-arrow"}}</a>
-  </div>
-</section>
-{{end}}
-
-{{with .Site.Profile}}
 <section id="contact" class="section reveal">
   <p class="section-eyebrow mono">Contact</p>
-  <h2 class="section-title">Say hello.</h2>
+  <h2 class="section-title">Building something in fintech or backend?</h2>
   <div class="glass card contact">
     <div>
       <h3>Let's talk</h3>
-      <p class="muted">Open to backend roles and good engineering conversations. Send a message or email me directly.</p>
+      <p class="muted">I enjoy hard problems in distributed systems, lending and clean architecture, and I'm open to backend roles. Send a message or email me directly.</p>
       <p><a class="link" href="mailto:{{.Email}}">{{template "icon-mail"}} {{.Email}}</a></p>
     </div>
     {{with .ContactForm}}<form class="contact-form" action="{{if .Enabled}}{{.Action}}{{else}}#contact{{end}}" method="POST" target="_blank" data-contact{{if not .Enabled}} data-unconfigured{{end}}>
