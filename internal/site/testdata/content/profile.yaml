@@ -1,0 +1,10 @@
+name: Test Person
+title: Engineer
+pitch: Testing the build.
+email: test@example.com
+photo: img/profile.svg
+resume: resume.pdf
+site_url: https://test.example.com
+about: ["About text."]
+socials:
+  - { label: Email, icon: email, url: "mailto:test@example.com" }

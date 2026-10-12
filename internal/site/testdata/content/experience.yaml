@@ -1,0 +1,3 @@
+- name: Acme
+  roles:
+    - { title: Engineer, start: Jan 2020, bullets: [Did work.] }
