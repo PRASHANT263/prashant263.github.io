@@ -117,25 +117,25 @@ main { width: var(--frame); margin: 0 auto; }
 .hero-avatar img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); }
 /* Skill bubbles: float up out of the avatar, pop on click to show a fact. */
 .hero-avatar[data-bubbles] { cursor: pointer; }
-.bubble { position: absolute; left: 50%; top: 50%; z-index: 3; padding: 6px 13px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); background: color-mix(in srgb, var(--glass-strong) 85%, var(--accent) 15%); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 6px 18px rgba(0, 0, 0, .18), inset 0 1px 0 rgba(255, 255, 255, .35); color: var(--text); font: 600 .82rem var(--font); white-space: nowrap; cursor: pointer; animation: bubble-float var(--dur, 6.5s) ease-out forwards; }
+.bubble { position: absolute; left: calc(50% + var(--x, 0px)); top: calc(50% + var(--y, 0px)); z-index: 3; padding: 6px 13px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); background: color-mix(in srgb, var(--glass-strong) 85%, var(--accent) 15%); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 6px 18px rgba(0, 0, 0, .18), inset 0 1px 0 rgba(255, 255, 255, .35); color: var(--text); font: 600 .82rem var(--font); white-space: nowrap; cursor: pointer; transform: translate(-50%, -50%); animation: bubble-life 2s ease-out forwards; }
 .bubble:hover, .bubble:focus-visible { border-color: var(--accent-2); }
-@keyframes bubble-float {
+@keyframes bubble-life {
   0% { transform: translate(-50%, -50%) scale(.3); opacity: 0; }
-  12% { transform: translate(calc(-50% + var(--dx) * .2), calc(-50% + var(--dy) * .2)) scale(1); opacity: 1; }
-  50% { transform: translate(calc(-50% + var(--dx) * .6 + var(--wob)), calc(-50% + var(--dy) * .6)) scale(1); }
-  85% { opacity: 1; }
-  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.95); opacity: 0; }
+  15% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+  25% { transform: translate(-50%, -50%) scale(1); }
+  80% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(.9); opacity: 0; }
 }
 .bubble.popping { animation: none; transition: transform .28s ease-out, opacity .28s ease-out; opacity: 0; pointer-events: none; }
 .spark { position: absolute; z-index: 3; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); pointer-events: none; animation: spark .55s ease-out forwards; }
 @keyframes spark { to { transform: translate(var(--sx), var(--sy)) scale(.2); opacity: 0; } }
 .bubble-hint { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%); margin: 0; color: var(--muted); font-size: .78rem; white-space: nowrap; transition: opacity .3s; }
-.bubble-card { position: absolute; top: calc(100% + 12px); left: 50%; z-index: 4; width: 250px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border); background: var(--glass-strong); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: var(--shadow); text-align: left; opacity: 0; transform: translate(-50%, 6px); transition: opacity .25s, transform .25s; pointer-events: none; }
+.bubble-card { position: absolute; top: calc(100% + 12px); left: 50%; z-index: 4; width: 230px; padding: 8px 11px; border-radius: 12px; border: 1px solid var(--border); background: var(--glass-strong); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: var(--shadow); text-align: left; opacity: 0; transform: translate(-50%, 6px); transition: opacity .25s, transform .25s; pointer-events: none; }
 .bubble-card:empty { display: none; }
 .bubble-card.show { opacity: 1; transform: translate(-50%, 0); }
 .bubble-card.show ~ .bubble-hint, .hero-avatar.used .bubble-hint { opacity: 0; }
-.bubble-card strong { display: block; margin-bottom: 4px; color: var(--accent); font-size: .95rem; }
-.bubble-card p { margin: 0; font-size: .86rem; line-height: 1.5; }
+.bubble-card strong { display: block; margin-bottom: 2px; color: var(--accent); font-size: .82rem; }
+.bubble-card p { margin: 0; font-size: .76rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 /* Three columns get cramped below ~1100px: keep the photo, drop the monogram. */
 @media (max-width: 1100px) { .hero { grid-template-columns: 1fr auto; } .hero-avatar { display: none; } }
 /* Portrait frame on the right: rounded rectangle with a slowly rotating gradient border. */

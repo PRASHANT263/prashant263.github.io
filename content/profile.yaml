@@ -8,16 +8,16 @@ location: Bengaluru, India
 email: prashantab8505@gmail.com
 site_url: https://prashant263.github.io
 avatar: img/avatar.svg         # round "P" left of your name; delete the line to hide it
-bubbles:                        # skills that float out of the P; click one to pop it and show the detail
-  - { skill: Go, detail: "My main language: lending services, NBFC partner integrations and the loan document service at KreditBee." }
-  - { skill: DDD, detail: "Led the move of lending systems from a tightly coupled monolith to domain, service and gateway layers." }
-  - { skill: AWS, detail: "EC2, Lambda, API Gateway, S3, SNS/SQS and CloudWatch in production." }
-  - { skill: Microservices, detail: "Clear service boundaries across multiple lending products and partner integrations." }
-  - { skill: Concurrency, detail: "Goroutines, channels, context and synchronization in Go backends." }
+bubbles:                        # skills that pop up around the P; click one to show the detail (keep details short: 2 lines)
+  - { skill: Go, detail: "Main language for KreditBee's lending services and integrations." }
+  - { skill: DDD, detail: "Led the monolith → domain, service and gateway layer migration." }
+  - { skill: AWS, detail: "EC2, Lambda, API Gateway, S3, SNS/SQS and CloudWatch." }
+  - { skill: Microservices, detail: "Clear service boundaries across lending products and partners." }
+  - { skill: Concurrency, detail: "Goroutines, channels, context and sync in Go backends." }
   - { skill: MySQL & Redis, detail: "MySQL for lending data, Redis for caching." }
-  - { skill: PDF pipeline, detail: "HTML templates + headless Chrome generating RBI-compliant loan agreements in 10 languages." }
-  - { skill: AI tooling, detail: "Led my team's adoption of AI-assisted development with Cursor and Claude Code." }
-  - { skill: Mentoring, detail: "Mentoring 5 engineers through code reviews, production debugging and design discussions." }
+  - { skill: PDF pipeline, detail: "HTML + headless Chrome loan agreements in 10 languages." }
+  - { skill: AI tooling, detail: "Led my team's adoption of Cursor and Claude Code." }
+  - { skill: Mentoring, detail: "Mentoring 5 engineers via reviews, debugging and design talks." }
 photo: img/profile.jpeg         # your photo in the rounded frame on the right; portrait 4:5 works best
 resume: resume.pdf
 resume_preview: img/resume-preview.png

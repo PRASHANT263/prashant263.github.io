@@ -52,8 +52,8 @@
     setTimeout(tick, 1800);
   }
 
-  // Skill bubbles: skills float up out of the avatar and fade away; clicking
-  // one pops it with a few sparks and shows a short fact underneath.
+  // Skill bubbles: skills pop up around the avatar's edge and fade away; clicking
+  // one bursts it with a few sparks and shows a short fact underneath.
   const avatar = document.querySelector(".hero-avatar[data-bubbles]");
   const motionOK = !matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (avatar && motionOK) {
@@ -102,27 +102,41 @@
       showFact(skill);
     };
 
+    // Bubbles appear on the circle's edge, live ~2s (CSS), and fade where they
+    // appeared. Angles stay apart so bubbles don't overlap; the bottom arc is
+    // left free for the hint and the fact card.
+    const angles = new Map();
+    const pickAngle = () => {
+      for (let tries = 0; tries < 12; tries++) {
+        const deg = rand(-215, 35); // everything except the bottom ~110°
+        if ([...angles.values()].every((a) => Math.abs(a - deg) > 55)) return deg;
+      }
+      return null;
+    };
     const spawn = () => {
-      if (!skills.length || live.size >= 4 || document.hidden || !avatar.offsetParent) return;
+      if (!skills.length || live.size >= 3 || document.hidden || !avatar.offsetParent) return;
+      const deg = pickAngle();
+      if (deg === null) return;
       const skill = skills[next++ % skills.length];
+      const radius = avatar.offsetWidth / 2;
       const b = document.createElement("button");
       b.type = "button";
       b.className = "bubble";
       b.textContent = skill.skill;
       b.setAttribute("aria-label", skill.skill + ": show detail");
-      b.style.setProperty("--dx", rand(-110, 110) + "px");
-      b.style.setProperty("--dy", rand(-230, -150) + "px");
-      b.style.setProperty("--wob", rand(-18, 18) + "px");
-      b.style.setProperty("--dur", rand(6, 8).toFixed(1) + "s");
-      b.addEventListener("click", (e) => { e.stopPropagation(); pop(b, skill); });
-      b.addEventListener("animationend", () => { b.remove(); live.delete(b); });
+      b.style.setProperty("--x", Math.cos(deg * Math.PI / 180) * radius + "px");
+      b.style.setProperty("--y", Math.sin(deg * Math.PI / 180) * radius + "px");
+      const done = () => { b.remove(); live.delete(b); angles.delete(b); };
+      b.addEventListener("click", (e) => { e.stopPropagation(); angles.delete(b); pop(b, skill); });
+      b.addEventListener("animationend", done);
       live.add(b);
+      angles.set(b, deg);
       avatar.append(b);
     };
 
     avatar.addEventListener("click", () => { for (let i = 0; i < 3; i++) setTimeout(spawn, i * 180); });
-    setTimeout(spawn, 900);
-    setInterval(spawn, 1800);
+    setTimeout(spawn, 700);
+    setInterval(spawn, 800);
   }
 
   // Reveal sections as they scroll into view.
