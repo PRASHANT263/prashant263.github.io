@@ -74,6 +74,10 @@ func (p *problems) profile(pr Profile, static fs.FS) {
 	}
 	p.staticFile(static, f, "photo", pr.Photo)
 	p.staticFile(static, f, "avatar", pr.Avatar)
+	for i, b := range pr.Bubbles {
+		p.required(f, fmt.Sprintf("bubbles[%d].skill", i), b.Skill)
+		p.required(f, fmt.Sprintf("bubbles[%d].detail", i), b.Detail)
+	}
 	p.staticFile(static, f, "resume", pr.Resume)
 	p.staticFile(static, f, "resume_preview", pr.ResumePreview)
 	p.contactForm(pr.ContactForm)

@@ -52,6 +52,79 @@
     setTimeout(tick, 1800);
   }
 
+  // Skill bubbles: skills float up out of the avatar and fade away; clicking
+  // one pops it with a few sparks and shows a short fact underneath.
+  const avatar = document.querySelector(".hero-avatar[data-bubbles]");
+  const motionOK = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (avatar && motionOK) {
+    let skills = [];
+    try { skills = JSON.parse(avatar.querySelector(".bubble-data").textContent) || []; } catch (e) { /* bad data: no bubbles */ }
+    const card = avatar.querySelector(".bubble-card");
+    const rand = (min, max) => min + Math.random() * (max - min);
+    const live = new Set();
+    let next = 0, hideCard;
+
+    const showFact = (skill) => {
+      card.innerHTML = "";
+      const title = document.createElement("strong");
+      const text = document.createElement("p");
+      title.textContent = skill.skill;
+      text.textContent = skill.detail;
+      card.append(title, text);
+      card.classList.add("show");
+      avatar.classList.add("used");
+      clearTimeout(hideCard);
+      hideCard = setTimeout(() => card.classList.remove("show"), 4500);
+    };
+
+    const sparks = (x, y) => {
+      for (let i = 0; i < 10; i++) {
+        const s = document.createElement("span");
+        const angle = (i / 10) * Math.PI * 2;
+        const dist = rand(26, 46);
+        s.className = "spark";
+        s.style.left = x + "px";
+        s.style.top = y + "px";
+        s.style.setProperty("--sx", Math.cos(angle) * dist + "px");
+        s.style.setProperty("--sy", Math.sin(angle) * dist + "px");
+        s.addEventListener("animationend", () => s.remove());
+        avatar.append(s);
+      }
+    };
+
+    const pop = (b, skill) => {
+      const a = avatar.getBoundingClientRect(), r = b.getBoundingClientRect();
+      b.style.transform = getComputedStyle(b).transform; // freeze where it is
+      b.classList.add("popping");
+      requestAnimationFrame(() => { b.style.transform += " scale(1.7)"; });
+      setTimeout(() => { b.remove(); live.delete(b); }, 300);
+      sparks(r.left - a.left + r.width / 2, r.top - a.top + r.height / 2);
+      showFact(skill);
+    };
+
+    const spawn = () => {
+      if (!skills.length || live.size >= 4 || document.hidden || !avatar.offsetParent) return;
+      const skill = skills[next++ % skills.length];
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "bubble";
+      b.textContent = skill.skill;
+      b.setAttribute("aria-label", skill.skill + ": show detail");
+      b.style.setProperty("--dx", rand(-110, 110) + "px");
+      b.style.setProperty("--dy", rand(-230, -150) + "px");
+      b.style.setProperty("--wob", rand(-18, 18) + "px");
+      b.style.setProperty("--dur", rand(6, 8).toFixed(1) + "s");
+      b.addEventListener("click", (e) => { e.stopPropagation(); pop(b, skill); });
+      b.addEventListener("animationend", () => { b.remove(); live.delete(b); });
+      live.add(b);
+      avatar.append(b);
+    };
+
+    avatar.addEventListener("click", () => { for (let i = 0; i < 3; i++) setTimeout(spawn, i * 180); });
+    setTimeout(spawn, 900);
+    setInterval(spawn, 1800);
+  }
+
   // Reveal sections as they scroll into view.
   root.classList.add("reveal-ready");
   const reveals = document.querySelectorAll(".reveal");

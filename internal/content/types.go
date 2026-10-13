@@ -12,24 +12,25 @@ type Site struct {
 }
 
 type Profile struct {
-	Name          string       `yaml:"name"`
-	Title         string       `yaml:"title"`
-	Pitch         string       `yaml:"pitch"`
-	Greetings     []string     `yaml:"greetings"` // optional; the hero types each one in turn
-	Status        string       `yaml:"status"`    // optional pill above the name, e.g. "Currently building at KreditBee"
-	Expertise     []string     `yaml:"expertise"` // optional footer list
-	About         []AboutPoint `yaml:"about"`
-	Location      string       `yaml:"location"`
-	Email         string       `yaml:"email"`
-	Photo         string       `yaml:"photo"`          // path under static/
-	Avatar        string       `yaml:"avatar"`         // optional round monogram left of the name, path under static/
-	Resume        string       `yaml:"resume"`         // path under static/
-	ResumePreview string       `yaml:"resume_preview"` // optional, path under static/
-	ResumeUpdated Date         `yaml:"resume_updated"`
-	ContactForm   GoogleForm   `yaml:"contact_form"`
-	SiteURL       string       `yaml:"site_url"`
-	Facts         []Fact       `yaml:"facts"`
-	Socials       []Social     `yaml:"socials"`
+	Name          string        `yaml:"name"`
+	Title         string        `yaml:"title"`
+	Pitch         string        `yaml:"pitch"`
+	Greetings     []string      `yaml:"greetings"` // optional; the hero types each one in turn
+	Status        string        `yaml:"status"`    // optional pill above the name, e.g. "Currently building at KreditBee"
+	Expertise     []string      `yaml:"expertise"` // optional footer list
+	About         []AboutPoint  `yaml:"about"`
+	Location      string        `yaml:"location"`
+	Email         string        `yaml:"email"`
+	Photo         string        `yaml:"photo"`          // path under static/
+	Avatar        string        `yaml:"avatar"`         // optional round monogram left of the name, path under static/
+	Bubbles       []SkillBubble `yaml:"bubbles"`        // optional; float out of the avatar and pop to show Detail
+	Resume        string        `yaml:"resume"`         // path under static/
+	ResumePreview string        `yaml:"resume_preview"` // optional, path under static/
+	ResumeUpdated Date          `yaml:"resume_updated"`
+	ContactForm   GoogleForm    `yaml:"contact_form"`
+	SiteURL       string        `yaml:"site_url"`
+	Facts         []Fact        `yaml:"facts"`
+	Socials       []Social      `yaml:"socials"`
 }
 
 type Fact struct {
@@ -133,3 +134,11 @@ type GoogleForm struct {
 // Enabled reports whether a form is configured; otherwise the page shows
 // the email fallback.
 func (g GoogleForm) Enabled() bool { return g.Action != "" }
+
+// SkillBubble is one skill that floats out of the hero avatar; clicking it
+// pops the bubble and shows Detail. JSON tags shape the data the page's
+// script reads.
+type SkillBubble struct {
+	Skill  string `yaml:"skill" json:"skill"`
+	Detail string `yaml:"detail" json:"detail"`
+}

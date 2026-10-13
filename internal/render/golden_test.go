@@ -349,3 +349,20 @@ func TestProjectsSitBelowToolkit(t *testing.T) {
 		t.Errorf("want Toolkit, then Side projects, then Recognition; got skills=%d projects=%d recognition=%d", skills, projects, recognition)
 	}
 }
+
+func TestSkillBubblesDataOnAvatar(t *testing.T) {
+	s := fixtureSite()
+	s.Profile.Avatar = "img/avatar.svg"
+	s.Profile.Bubbles = []content.SkillBubble{{Skill: "Go", Detail: "Main language <3"}}
+	out, err := realRenderer(t).Home(s)
+	if err != nil {
+		t.Fatal(err)
+	}
+	mustContain(t, string(out),
+		`<div class="hero-avatar" data-bubbles>`,
+		`<script type="application/json" class="bubble-data">`,
+		`"skill":"Go"`,
+		`"detail":"Main language \u003c3"`, // JSON-escaped, so it can't break out of the script tag
+		`<div class="bubble-card" role="status" aria-live="polite"></div>`,
+	)
+}

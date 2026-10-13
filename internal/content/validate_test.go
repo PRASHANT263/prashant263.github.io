@@ -55,6 +55,7 @@ func TestValidateProblems(t *testing.T) {
 		{"missing email", func(s *Site) { s.Profile.Email = "" }, "profile.yaml: email: is required"},
 		{"relative site url", func(s *Site) { s.Profile.SiteURL = "ada.example.com" }, "profile.yaml: site_url:"},
 		{"bad email", func(s *Site) { s.Profile.Email = "ada" }, "profile.yaml: email:"},
+		{"bubble missing detail", func(s *Site) { s.Profile.Bubbles = []SkillBubble{{Skill: "Go"}} }, "profile.yaml: bubbles[0].detail: is required"},
 		{"missing avatar file", func(s *Site) { s.Profile.Avatar = "img/none.svg" }, "profile.yaml: avatar: static/img/none.svg does not exist"},
 		{"missing photo file", func(s *Site) { s.Profile.Photo = "img/none.jpg" }, "static/img/none.jpg does not exist"},
 		{"bad social url", func(s *Site) { s.Profile.Socials[0].URL = "github.com/ada" }, "profile.yaml: socials[0].url:"},
