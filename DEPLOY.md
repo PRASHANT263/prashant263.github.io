@@ -127,12 +127,21 @@ gh repo create prashant263.github.io --public --source=. --remote=origin --push
 
 ## Part E — Switch on GitHub Pages
 
+This is the exact failure you are seeing: GitHub is still running the built-in Jekyll Pages builder instead of your custom Go workflow. The Jekyll log is a dead giveaway because it says `Run actions/jekyll-build-pages@v1` and tries to parse the planning docs in `docs/superpowers/...` as Liquid templates.
+
+Do this in the GitHub UI, not in the code:
+
 1. Open https://github.com/prashant263/prashant263.github.io → **Settings** → **Pages** (left sidebar).
 2. Under **Build and deployment → Source**, choose **GitHub Actions**.
-3. Open the **Actions** tab. You'll see a run called **Deploy**.
-   - If it's red (it ran before Pages was enabled), click it → **Re-run all jobs**.
-   - Wait for both jobs, **build** and **deploy**, to turn green (about 1–2 minutes).
-4. Open **https://prashant263.github.io**. The very first deploy can take a few extra minutes to appear.
+   - If **GitHub Actions** is not available, it means Pages is still stuck on an old source/branch mode. Save nothing yet; first check that the repo contains `.github/workflows/deploy.yml` and that the branch is **main**.
+   - If GitHub still refuses to save, open **Settings** → **Actions** → **General** and make sure workflows are allowed to write to Pages.
+3. After saving, go to **Actions** and you should see a run called **Deploy**.
+4. If the run is red because it happened before Pages was enabled, click the run → **Re-run all jobs**.
+5. Wait for both jobs, **build** and **deploy**, to turn green. This usually takes about 1–2 minutes.
+6. Open **https://prashant263.github.io**. The first deploy can take a few more minutes to appear.
+7. If it still shows a 404 or stale site, hard-refresh once (`Cmd+Shift+R` / `Ctrl+F5`) after a few minutes.
+
+This is not a Go build problem. It is a GitHub Pages source selection problem. Once **Source = GitHub Actions**, the workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) is the one that builds and deploys the site.
 
 **🎉 Your site is live.**
 
